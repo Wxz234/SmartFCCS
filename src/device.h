@@ -4,9 +4,10 @@
 namespace SmartFCCS {
 	struct Device : public IDevice
 	{
+		Device();
 		IUnknown* GetNativePtr() const noexcept {
 			return m_Device.Get();
 		}
-		Microsoft::WRL::ComPtr<ID3D12Device8> m_Device;
+		Microsoft::WRL::ComPtr<ID3D12Device> m_Device;
 	};
 }
