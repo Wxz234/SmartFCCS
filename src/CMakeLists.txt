@@ -1,0 +1,18 @@
+set(FCCS_INCLUDE_DIRECTION ${PROJECT_SOURCE_DIR}/include)
+set(FCCS_INCLUDE_FILE 
+    ${FCCS_INCLUDE_DIRECTION}/SmartFCCS/SmartFCCS.h
+)
+
+set(FCCS_SOURCE_FILE
+    device.cpp
+    pipeline.cpp
+    SmartFCCS.cpp
+)
+
+add_library(SmartFCCS STATIC 
+    ${FCCS_SOURCE_FILE}
+    ${FCCS_INCLUDE_FILE}
+)
+
+target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
+target_compile_definitions(SmartFCCS PRIVATE UNICODE D3DX12_NO_STATE_OBJECT_HELPERS D3DX12_NO_CHECK_FEATURE_SUPPORT_CLASS)
