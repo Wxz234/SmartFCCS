@@ -1,11 +1,16 @@
-set(FCCS_INCLUDE_DIRECTION ${PROJECT_SOURCE_DIR}/include)
+set(FCCS_INCLUDE_DIRECTION 
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/thirdparty/dxc/inc
+    ${PROJECT_SOURCE_DIR}/thirdparty/d3dx12/inc
+)
 set(FCCS_INCLUDE_FILE 
-    ${FCCS_INCLUDE_DIRECTION}/SmartFCCS/SmartFCCS.h
+    ${PROJECT_SOURCE_DIR}/include/SmartFCCS/SmartFCCS.h
 )
 
 set(FCCS_SOURCE_FILE
     device.cpp
     pipeline.cpp
+    thirdparty.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
 )
