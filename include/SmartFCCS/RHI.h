@@ -6,6 +6,15 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
 	};
 
+	struct PipelineStateDesc {
+		D3D12_SHADER_BYTECODE VS = {};
+		D3D12_SHADER_BYTECODE PS = {};
+	};
+
+	struct PipelineState : public IDXObject {
+		virtual ID3D12RootSignature* GetRootSignature() = 0;
+	};
+
 	struct IDevice : public IDXObject {
 
 	};
