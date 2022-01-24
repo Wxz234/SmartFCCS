@@ -11,6 +11,8 @@ set(FCCS_INCLUDE_FILE
 
 set(FCCS_SOURCE_FILE
     device.cpp
+    pipeline.cpp
+    dx12_backend.cpp
     SmartFCCS.cpp
 )
 
