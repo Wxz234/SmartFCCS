@@ -3,7 +3,7 @@
 #include <d3d12.h>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
-
+		virtual IUnknown* GetNativePtr() const noexcept = 0;
 	};
 
 	struct IDevice : public IDXObject {
