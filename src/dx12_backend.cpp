@@ -19,4 +19,8 @@ namespace SmartFCCS {
 
 	struct CmdAllocator {};
 
+	void reflectHLSL2RootSignature() {
+
+	}
+
 }
