@@ -21,4 +21,4 @@ add_library(SmartFCCS STATIC
 )
 
 target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
-target_compile_definitions(SmartFCCS PRIVATE UNICODE D3DX12_NO_STATE_OBJECT_HELPERS D3DX12_NO_CHECK_FEATURE_SUPPORT_CLASS)
+target_compile_definitions(SmartFCCS PRIVATE UNICODE)

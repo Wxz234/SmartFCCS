@@ -1,8 +1,8 @@
 #include "thirdparty.h"
 
 namespace SmartFCCS {
-	HMODULE getDXCModule() {
-		static auto mod = LoadLibraryW(L"../thirdparty/dxc/bin/x64/dxcompiler.dll");
+	HMODULE getDXCompilerModule() {
+		static auto mod = LoadLibraryW(L"d3dcompiler_47.dll");
 		return mod;
 	}
 	HMODULE getD3D12Module() {
