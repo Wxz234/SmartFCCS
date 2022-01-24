@@ -3,11 +3,13 @@
 #include <d3d12.h>
 #include <cstdint>
 #include <dxgiformat.h>
+#define FCCS_API
+
 namespace SmartFCCS {
 	struct IObject {
 		virtual ~IObject();
 	};
-	void DestroyObject(IObject* object);
+	FCCS_API void DestroyObject(IObject* object);
 
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
@@ -23,10 +25,10 @@ namespace SmartFCCS {
 	struct IDevice : public IDXObject {
 	};
 
-	IDevice* CreateDevice();
+	FCCS_API IDevice* CreateDevice();
 
 	struct IWindow : public IObject {
 
 	};
-	IWindow* CreateFCCSWindow();
+	FCCS_API IWindow* CreateFCCSWindow();
 }

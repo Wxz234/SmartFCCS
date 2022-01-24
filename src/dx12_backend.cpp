@@ -1,6 +1,7 @@
 #include "dx12_backend.h"
 #include "thirdparty.h"
 #include <wrl/client.h>
+#include <dxcapi.h>
 namespace SmartFCCS {
 	void createD3D12Device(ID3D12Device** ppDevice) {
 		*ppDevice = nullptr;
