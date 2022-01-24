@@ -1,9 +1,10 @@
 #pragma once
 #include <Windows.h>
 #include <d3d12.h>
-#include <cstdint>
-#include <cstddef>
 #include <dxgiformat.h>
+
+#include <cstdint>
+
 #define FCCS_API
 
 namespace SmartFCCS {
@@ -27,9 +28,4 @@ namespace SmartFCCS {
 	};
 
 	FCCS_API IDevice* CreateDevice();
-
-	//struct IWindow : public IObject {
-
-	//};
-	//FCCS_API IWindow* CreateFCCSWindow();
 }
