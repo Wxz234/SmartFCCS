@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3d12.h>
 #include <cstdint>
+#include <cstddef>
 #include <dxgiformat.h>
 #define FCCS_API
 
@@ -20,15 +21,15 @@ namespace SmartFCCS {
 		UNKNOWN = 0,
 		RGBA8_UNORM
 	};
-	DXGI_FORMAT GetDXGI_FORMAT(FORMAT format);
+	FCCS_API DXGI_FORMAT GetDXGI_FORMAT(FORMAT format);
 
 	struct IDevice : public IDXObject {
 	};
 
 	FCCS_API IDevice* CreateDevice();
 
-	struct IWindow : public IObject {
+	//struct IWindow : public IObject {
 
-	};
-	FCCS_API IWindow* CreateFCCSWindow();
+	//};
+	//FCCS_API IWindow* CreateFCCSWindow();
 }
