@@ -5,19 +5,19 @@ set(FCCS_INCLUDE_DIRECTION
 )
 set(FCCS_INCLUDE_FILE 
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/SmartFCCS.h
+        ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Core.h
+    ${PROJECT_SOURCE_DIR}/include/SmartFCCS/RHI.h
 )
 
 set(FCCS_SOURCE_FILE
     device.cpp
-    thirdparty.cpp
-    dx12_backend.cpp
     SmartFCCS.cpp
 )
 
-add_library(SmartFCCS STATIC 
+add_library(SmartFCCS SHARED 
     ${FCCS_SOURCE_FILE}
     ${FCCS_INCLUDE_FILE}
 )
 
 target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
-target_compile_definitions(SmartFCCS PRIVATE UNICODE)
+target_compile_definitions(SmartFCCS PRIVATE UNICODE D3D12 FCCS_LIBRARY)

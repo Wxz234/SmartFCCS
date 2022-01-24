@@ -1,5 +1,5 @@
 #pragma once
-#include <SmartFCCS/SmartFCCS.h>
+#include <SmartFCCS/RHI.h>
 #include <wrl/client.h>
 namespace SmartFCCS {
 	struct Device : public IDevice

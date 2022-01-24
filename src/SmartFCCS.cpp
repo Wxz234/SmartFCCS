@@ -1,6 +1,6 @@
-#include <SmartFCCS/SmartFCCS.h>
+#include <SmartFCCS/Core.h>
 namespace SmartFCCS {
-	IObject::~IObject(){}
+	IObject::~IObject() {}
 	void DestroyObject(IObject* object) {
 		delete object;
 	}
