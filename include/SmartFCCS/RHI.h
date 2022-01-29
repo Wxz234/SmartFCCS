@@ -11,7 +11,7 @@ namespace SmartFCCS {
 		D3D12_SHADER_BYTECODE PS = {};
 	};
 
-	struct PipelineState : public IDXObject {
+	struct IPipelineState : public IDXObject {
 		virtual ID3D12RootSignature* GetRootSignature() = 0;
 	};
 
