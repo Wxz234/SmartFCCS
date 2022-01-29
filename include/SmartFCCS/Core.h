@@ -2,7 +2,7 @@
 
 #ifdef FCCS_LIBRARY
 #define FCCS_API __declspec(dllexport)
-#elif
+#else
 #define FCCS_API __declspec(dllimport)
 #endif // FCCS_LIBRARY
 
