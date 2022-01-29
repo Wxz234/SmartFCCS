@@ -18,4 +18,6 @@ namespace SmartFCCS {
 	struct IDevice : public IDXObject {
 
 	};
+
+	FCCS_API IDevice* CreateDevice();
 }

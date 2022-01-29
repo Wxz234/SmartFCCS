@@ -5,7 +5,7 @@ set(FCCS_INCLUDE_DIRECTION
 )
 set(FCCS_INCLUDE_FILE 
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/SmartFCCS.h
-        ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Core.h
+    ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Core.h
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/RHI.h
 )
 
