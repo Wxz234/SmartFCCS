@@ -6,7 +6,7 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
 	};
 
-	struct PipelineStateDesc {
+	struct GraphicsPipelineStateDesc {
 		D3D12_SHADER_BYTECODE VS = {};
 		D3D12_SHADER_BYTECODE PS = {};
 	};
@@ -16,7 +16,7 @@ namespace SmartFCCS {
 	};
 
 	struct IDevice : public IDXObject {
-
+		virtual IPipelineState* CreateGraphicsPipelineState(const GraphicsPipelineStateDesc& desc) = 0;
 	};
 
 	FCCS_API IDevice* CreateDevice();

@@ -8,6 +8,8 @@ namespace SmartFCCS {
 		IUnknown* GetNativePtr() const noexcept {
 			return m_Device.Get();
 		}
+
+		IPipelineState* CreateGraphicsPipelineState(const GraphicsPipelineStateDesc& desc);
 		Microsoft::WRL::ComPtr<ID3D12Device> m_Device;
 	};
 }
