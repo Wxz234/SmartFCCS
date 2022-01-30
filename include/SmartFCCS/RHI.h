@@ -6,10 +6,6 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
 	};
 
-	struct IResource : public IDXObject {
-
-	};
-
 	enum class COMMAND_LIST_TYPE {
 		GRAPHICS,
 		COMPUTE,
