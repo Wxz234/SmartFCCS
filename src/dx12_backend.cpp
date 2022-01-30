@@ -1,5 +1,6 @@
 #include "dx12_backend.h"
 #include <d3dcompiler.h>
+#include <dxcapi.h> //todo sm6
 #include <wrl/client.h>
 namespace SmartFCCS {
 	void CheckDXError(HRESULT hr) {
