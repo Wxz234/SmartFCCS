@@ -9,6 +9,9 @@ namespace SmartFCCS {
 			return m_Device.Get();
 		}
 
+		ICommandList* CreateCommandList(COMMAND_LIST_TYPE type);
+		ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type);
+
 		Microsoft::WRL::ComPtr<ID3D12Device> m_Device;
 	};
 }

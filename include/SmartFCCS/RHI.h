@@ -22,7 +22,8 @@ namespace SmartFCCS {
 	};
 
 	struct IDevice : public IDXObject {
-		
+		virtual ICommandList* CreateCommandList(COMMAND_LIST_TYPE type) = 0;
+		virtual ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type) = 0;
 	};
 
 	FCCS_API IDevice* CreateDevice();
