@@ -43,6 +43,8 @@ namespace SmartFCCS {
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE);
         m_Hwnd = CreateWindowExW(0, L"fccs_class", title, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, GetModuleHandle(nullptr), this);
         ZeroMemory(&msg, sizeof(MSG));
+        w = width;
+        h = height;
     }
 
 	void Window::ShowWindow() {

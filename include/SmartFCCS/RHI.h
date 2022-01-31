@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Window.h"
 #include <d3d12.h>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
@@ -27,4 +28,10 @@ namespace SmartFCCS {
 	};
 
 	FCCS_API IDevice* CreateDevice();
+
+	struct ISwapChain : public IDXObject {
+		virtual void Present() = 0;
+	};
+
+	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue);
 }

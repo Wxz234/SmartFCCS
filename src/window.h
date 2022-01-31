@@ -9,5 +9,8 @@ namespace SmartFCCS {
 		bool IsRun();
 		MSG msg;
 		HWND m_Hwnd;
+
+		uint32_t w;
+		uint32_t h;
 	};
 }

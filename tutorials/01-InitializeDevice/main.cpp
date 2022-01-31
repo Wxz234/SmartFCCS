@@ -7,13 +7,15 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     auto device = CreateDevice();
     auto g_queue = device->CreateCommandQueue(COMMAND_LIST_TYPE::GRAPHICS);
     auto g_list = device->CreateCommandList(COMMAND_LIST_TYPE::GRAPHICS);
+    auto swapchain = CreateSwapChain(window, g_queue);
     window->ShowWindow();
     while (window->IsRun()) {
         g_list->Open();
         g_list->Close();
         g_queue->Execute(g_list);
+        swapchain->Present();
     }
-
+    DestroyObject(swapchain);
     DestroyObject(g_list);
     DestroyObject(g_queue);
     DestroyObject(device);

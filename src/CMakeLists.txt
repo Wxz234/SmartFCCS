@@ -14,6 +14,7 @@ set(FCCS_SOURCE_FILE
     device.cpp
     cmd.cpp
     window.cpp
+    swapchain.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
 )
