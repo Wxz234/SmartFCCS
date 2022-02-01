@@ -18,5 +18,6 @@
 #include <vector>
 
 #include <cstdint>
+#include <cstring>
 
 #include <d3dx12.h>
