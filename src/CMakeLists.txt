@@ -15,6 +15,7 @@ set(FCCS_SOURCE_FILE
     cmd.cpp
     window.cpp
     swapchain.cpp
+    gpuresource.cpp
     shader.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
@@ -26,6 +27,6 @@ add_library(SmartFCCS SHARED
 )
 
 target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
-target_compile_definitions(SmartFCCS PRIVATE UNICODE FCCS_LIBRARY)
+target_compile_definitions(SmartFCCS PRIVATE UNICODE FCCS_LIBRARY D3DX12_NO_CHECK_FEATURE_SUPPORT_CLASS D3DX12_NO_STATE_OBJECT_HELPERS)
 target_link_libraries(SmartFCCS PRIVATE d3d12 d3dcompiler dxguid dxgi)
 target_precompile_headers(SmartFCCS PRIVATE pch.h)

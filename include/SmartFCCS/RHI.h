@@ -10,7 +10,7 @@ namespace SmartFCCS {
 	};
 
 	struct IResource : public IDXObject {
-
+		virtual D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const noexcept = 0;
 	};
 
 	enum class COMMAND_LIST_TYPE {
@@ -20,6 +20,7 @@ namespace SmartFCCS {
 	};
 
 	struct ICommandList : public IDXObject {
+		virtual void ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after) = 0;
 		virtual void Open() = 0;
 		virtual void Close() = 0;
 	};

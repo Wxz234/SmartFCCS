@@ -1,5 +1,6 @@
 #include "device.h"
 #include "cmd.h"
+#include "gpuresource.h"
 #include "dx12_backend.h"
 namespace SmartFCCS {
 	Device::Device() {

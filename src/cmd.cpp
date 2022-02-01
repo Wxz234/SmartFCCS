@@ -16,6 +16,18 @@ namespace SmartFCCS {
 		releaseCommandAllocatorRef();
 	}
 
+	void CommandList::ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after) {
+		if (brfore != after) {
+			auto barrier = CD3DX12_RESOURCE_BARRIER::Transition((ID3D12Resource*)pResource->GetNativePtr(), brfore, after);
+			m_List->ResourceBarrier(1, &barrier);
+		}
+		else if(brfore == D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
+		{
+			auto barrier = CD3DX12_RESOURCE_BARRIER::UAV((ID3D12Resource*)pResource->GetNativePtr());
+			m_List->ResourceBarrier(1, &barrier);
+		}
+	}
+
 	void CommandList::Open() {
 		m_temp_allocator = getCommandAllocatorInPool(m_Device.Get(), m_Type);
 		CheckDXError(m_List->Reset(m_temp_allocator.Get(), nullptr));
