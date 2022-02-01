@@ -4,13 +4,23 @@
 #include <d3d12.h>
 #include <dxgiformat.h>
 #include <d3dcommon.h>
+#include <cstddef>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
 	};
 
+	enum class HEAP_TYPE {
+		DEFAULT,
+		UPLOAD
+	};
+
 	struct IResource : public IDXObject {
 		virtual D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const noexcept = 0;
+	};
+
+	struct IBuffer : public IResource {
+		virtual void Write(void* pResource, size_t n) = 0;
 	};
 
 	enum class COMMAND_LIST_TYPE {
@@ -38,6 +48,7 @@ namespace SmartFCCS {
 	FCCS_API IDevice* CreateDevice();
 
 	struct ISwapChain : public IDXObject {
+		virtual IResource* GetTexture(uint32_t n) const noexcept = 0;
 		virtual uint32_t GetFrameIndex() const noexcept = 0;
 		virtual void Present() = 0;
 	};

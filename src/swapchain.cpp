@@ -39,6 +39,10 @@ namespace SmartFCCS {
 
 		m_queue = ((ID3D12CommandQueue*)pQueue->GetNativePtr());
 	}
+
+	IResource* SwapChain::GetTexture(uint32_t n) const noexcept {
+		return nullptr;
+	}
 	
 	void SwapChain::Present() {
 		CheckDXError(m_SwapChain->Present(1, 0));

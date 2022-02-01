@@ -7,6 +7,7 @@ namespace SmartFCCS {
 		SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 		~SwapChain();
 		IUnknown* GetNativePtr() const noexcept { return m_SwapChain.Get(); }
+		IResource* GetTexture(uint32_t n) const noexcept;
 		uint32_t GetFrameIndex() const noexcept { return m_SwapChain->GetCurrentBackBufferIndex(); }
 		void Present();
 
@@ -17,5 +18,7 @@ namespace SmartFCCS {
 		Microsoft::WRL::Wrappers::Event m_event;
 		std::vector<uint64_t> m_fenceValues;
 		uint32_t m_frameIndex;
+		//
+		IResource* m_res_ptr;
 	};
 }
