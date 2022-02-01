@@ -1,6 +1,5 @@
 #pragma once
-#include <d3d12.h>
-#include <cstdint>
+#include "pch.h"
 namespace SmartFCCS {
 	void CheckDXError(HRESULT hr);
 	ID3D12CommandAllocator* getCommandAllocatorInPool(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type);

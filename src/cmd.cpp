@@ -1,7 +1,5 @@
 #include "cmd.h"
 #include "dx12_backend.h"
-#include <synchapi.h>
-#include <combaseapi.h>
 namespace SmartFCCS {
 	CommandList::CommandList(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type) {
 		m_Device = pDevice;

@@ -1,8 +1,6 @@
+#pragma once
+#include "pch.h"
 #include <SmartFCCS/RHI.h>
-#include <wrl.h>
-#include <dxgi1_6.h>
-#include <vector>
-#include <cstdint>
 #define FCCS_SWAPCHAIN_NUM 3
 namespace SmartFCCS {
 	struct SwapChain : public ISwapChain {

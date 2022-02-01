@@ -1,6 +1,6 @@
 #pragma once
+#include "pch.h"
 #include <SmartFCCS/RHI.h>
-#include <wrl/client.h>
 namespace SmartFCCS {
 	struct Device : public IDevice
 	{

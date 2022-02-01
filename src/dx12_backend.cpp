@@ -1,8 +1,4 @@
 #include "dx12_backend.h"
-#include <winerror.h>
-#include <mutex>
-#include <vector>
-#include <wrl/client.h>
 namespace SmartFCCS {
 	void CheckDXError(HRESULT hr) {
 		if (hr != S_OK) {

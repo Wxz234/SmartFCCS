@@ -1,7 +1,6 @@
 #pragma once
+#include "pch.h"
 #include <SmartFCCS/RHI.h>
-#include <wrl.h>
-#include <cstdint>
 namespace SmartFCCS {
 	struct CommandList : public ICommandList {
 		CommandList(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type);

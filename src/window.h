@@ -1,6 +1,6 @@
 #pragma once
+#include "pch.h"
 #include <SmartFCCS/Window.h>
-#include <Windows.h>
 namespace SmartFCCS {
 	class Window : public IWindow {
 	public:

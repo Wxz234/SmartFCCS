@@ -1,7 +1,7 @@
 #include "swapchain.h"
 #include "window.h"
 #include "dx12_backend.h"
-#include <synchapi.h>
+
 namespace SmartFCCS {
 	SwapChain::SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format) {
 		Microsoft::WRL::ComPtr<IDXGIFactory4> factory;
