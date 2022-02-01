@@ -9,6 +9,9 @@
 #include <synchapi.h>
 #include <combaseapi.h>
 #include <winerror.h>
+#include <minwindef.h>
+#include <WinUser.h>
+#include <minwinbase.h>
 
 #include <string>
 #include <mutex>
