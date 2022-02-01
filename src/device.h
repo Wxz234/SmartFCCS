@@ -9,6 +9,8 @@ namespace SmartFCCS {
 			return m_Device.Get();
 		}
 
+		HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature);
+
 		ICommandList* CreateCommandList(COMMAND_LIST_TYPE type);
 		ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type);
 

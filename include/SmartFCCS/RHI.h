@@ -24,6 +24,7 @@ namespace SmartFCCS {
 	};
 
 	struct IDevice : public IDXObject {
+		virtual HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) = 0;
 		virtual ICommandList* CreateCommandList(COMMAND_LIST_TYPE type) = 0;
 		virtual ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type) = 0;
 	};
@@ -31,6 +32,7 @@ namespace SmartFCCS {
 	FCCS_API IDevice* CreateDevice();
 
 	struct ISwapChain : public IDXObject {
+		virtual uint32_t GetFrameIndex() const noexcept = 0;
 		virtual void Present() = 0;
 	};
 

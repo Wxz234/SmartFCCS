@@ -9,6 +9,7 @@ namespace SmartFCCS {
 		SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 		~SwapChain();
 		IUnknown* GetNativePtr() const noexcept { return m_SwapChain.Get(); }
+		uint32_t GetFrameIndex() const noexcept { return m_SwapChain->GetCurrentBackBufferIndex(); }
 		void Present();
 
 		Microsoft::WRL::ComPtr<IDXGISwapChain4> m_SwapChain;
