@@ -3,7 +3,7 @@
 #include "dx12_backend.h"
 #include <synchapi.h>
 namespace SmartFCCS {
-	SwapChain::SwapChain(IWindow *pWindow,ICommandQueue* pQueue) {
+	SwapChain::SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format) {
 		Microsoft::WRL::ComPtr<IDXGIFactory4> factory;
 		Window* window = (Window*)pWindow;
 		CheckDXError(CreateDXGIFactory2(0, IID_PPV_ARGS(&factory)));
@@ -11,7 +11,7 @@ namespace SmartFCCS {
 		_desc.BufferCount = FCCS_SWAPCHAIN_NUM;
 		_desc.Width = window->w;
 		_desc.Height = window->h;
-		_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		_desc.Format = format;
 		_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		_desc.SampleDesc.Count = 1;
@@ -61,7 +61,7 @@ namespace SmartFCCS {
 		++m_fenceValues[m_frameIndex];
 	}
 
-	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue) {
-		return new SwapChain(pWindow, pQueue);
+	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format) {
+		return new SwapChain(pWindow, pQueue, format);
 	}
 }

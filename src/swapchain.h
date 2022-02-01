@@ -6,7 +6,7 @@
 #define FCCS_SWAPCHAIN_NUM 3
 namespace SmartFCCS {
 	struct SwapChain : public ISwapChain {
-		SwapChain(IWindow* pWindow, ICommandQueue* pQueue);
+		SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 		~SwapChain();
 		IUnknown* GetNativePtr() const noexcept { return m_SwapChain.Get(); }
 		void Present();

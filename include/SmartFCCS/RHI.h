@@ -2,6 +2,7 @@
 #include "Core.h"
 #include "Window.h"
 #include <d3d12.h>
+#include <dxgiformat.h>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
@@ -33,5 +34,5 @@ namespace SmartFCCS {
 		virtual void Present() = 0;
 	};
 
-	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue);
+	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 }

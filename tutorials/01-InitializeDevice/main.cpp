@@ -7,7 +7,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     auto device = CreateDevice();
     auto g_queue = device->CreateCommandQueue(COMMAND_LIST_TYPE::GRAPHICS);
     auto g_list = device->CreateCommandList(COMMAND_LIST_TYPE::GRAPHICS);
-    auto swapchain = CreateSwapChain(window, g_queue);
+    auto swapchain = CreateSwapChain(window, g_queue, DXGI_FORMAT_R8G8B8A8_UNORM);
     window->ShowWindow();
     while (window->IsRun()) {
         g_list->Open();
