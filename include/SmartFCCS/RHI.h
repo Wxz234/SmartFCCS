@@ -40,6 +40,7 @@ namespace SmartFCCS {
 	};
 
 	struct IDevice : public IDXObject {
+		virtual IBuffer* CreateBuffer(HEAP_TYPE type, D3D12_RESOURCE_STATES state, size_t buffersize) = 0;
 		virtual HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) = 0;
 		virtual ICommandList* CreateCommandList(COMMAND_LIST_TYPE type) = 0;
 		virtual ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type) = 0;

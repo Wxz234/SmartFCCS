@@ -14,6 +14,25 @@ namespace SmartFCCS {
 		return m_Device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(ppvRootSignature));
 	}
 
+	IBuffer* Device::CreateBuffer(HEAP_TYPE type, D3D12_RESOURCE_STATES state, size_t buffersize) {
+		CD3DX12_HEAP_PROPERTIES prop = {};
+		if (type == HEAP_TYPE::DEFAULT) {
+			prop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+		}
+		else {
+			prop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+		}
+		Microsoft::WRL::ComPtr<ID3D12Resource> myBuffer;
+		m_Device->CreateCommittedResource(
+			&prop,
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(buffersize),
+			state,
+			nullptr,
+			IID_PPV_ARGS(&myBuffer));
+		return new Buffer(myBuffer.Get());
+	}
+
 	ICommandList* Device::CreateCommandList(COMMAND_LIST_TYPE type) {
 		D3D12_COMMAND_LIST_TYPE _type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 		if (type == COMMAND_LIST_TYPE::COMPUTE) {

@@ -55,28 +55,15 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     }
 
     D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
-    Microsoft::WRL::ComPtr<ID3D12Resource> vertexBuffer;
+    IBuffer* vertexBuffer = nullptr;
     {
         float triangleVertices[3][4] = {
             { 0.00f, 0.25f, 0.00f, 1.00f },
             { 0.25f,-0.25f, 0.00f, 1.00f },
             {-0.25f,-0.25f, 0.00f, 1.00f },
         };
-        auto deviceptr = (ID3D12Device*)device->GetNativePtr();
-        deviceptr->CreateCommittedResource(
-            &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-            D3D12_HEAP_FLAG_NONE,
-            &CD3DX12_RESOURCE_DESC::Buffer(sizeof(triangleVertices)),
-            D3D12_RESOURCE_STATE_GENERIC_READ,
-            nullptr,
-            IID_PPV_ARGS(&vertexBuffer));
-
-        // Copy the triangle data to the vertex buffer.
-        UINT8* pVertexDataBegin;
-        CD3DX12_RANGE readRange(0, 0);        
-        vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
-        memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-        vertexBuffer->Unmap(0, nullptr);
+        vertexBuffer = device->CreateBuffer(HEAP_TYPE::UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ, sizeof(triangleVertices));
+        vertexBuffer->Write(triangleVertices, sizeof(triangleVertices));
         vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
         vertexBufferView.StrideInBytes = sizeof(float) * 4;
         vertexBufferView.SizeInBytes = sizeof(triangleVertices);
@@ -138,6 +125,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         g_queue->Execute(g_list);
         swapchain->Present();
     }
+    DestroyObject(vertexBuffer);
     DestroyObject(swapchain);
     DestroyObject(g_list);
     DestroyObject(g_queue);
