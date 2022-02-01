@@ -17,19 +17,17 @@ namespace SmartFCCS {
 		_desc.SampleDesc.Count = 1;
 		_desc.SampleDesc.Quality = 0;
 		_desc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
-		_desc.Flags = 0;
 		_desc.Scaling = DXGI_SCALING_STRETCH;
-		_desc.Stereo = FALSE;
 
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = {};
-		fsSwapChainDesc.Windowed = TRUE;
+		fsSwapChainDesc.Windowed = 1;
 
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain;
 		CheckDXError(factory->CreateSwapChainForHwnd(pQueue->GetNativePtr(), window->m_Hwnd, &_desc, &fsSwapChainDesc, nullptr, &swapChain));
 		CheckDXError(factory->MakeWindowAssociation(window->m_Hwnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER));
 		CheckDXError(swapChain.As(&m_SwapChain));
 
-		m_event.Attach(CreateEvent(nullptr, FALSE, FALSE, nullptr));
+		m_event.Attach(CreateEventW(nullptr, 0, 0, nullptr));
 		m_frameIndex = m_SwapChain->GetCurrentBackBufferIndex();
 		m_fenceValues.resize(_desc.BufferCount, 0);
 
@@ -49,7 +47,7 @@ namespace SmartFCCS {
 		m_frameIndex = m_SwapChain->GetCurrentBackBufferIndex();
 		if (m_fence->GetCompletedValue() < m_fenceValues[m_frameIndex]) {
 			CheckDXError(m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get()));
-			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+			WaitForSingleObjectEx(m_event.Get(), 0xFFFFFFFF, 0);
 		}
 		m_fenceValues[m_frameIndex] = currentFenceValue + 1;
 	}
@@ -57,7 +55,7 @@ namespace SmartFCCS {
 	SwapChain::~SwapChain() {
 		CheckDXError(m_queue->Signal(m_fence.Get(), m_fenceValues[m_frameIndex]));
 		CheckDXError(m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get()));
-		WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+		WaitForSingleObjectEx(m_event.Get(), 0xFFFFFFFF, 0);
 		++m_fenceValues[m_frameIndex];
 	}
 

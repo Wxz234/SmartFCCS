@@ -15,6 +15,7 @@ set(FCCS_SOURCE_FILE
     cmd.cpp
     window.cpp
     swapchain.cpp
+    shader.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
 )

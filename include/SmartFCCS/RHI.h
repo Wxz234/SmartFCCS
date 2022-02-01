@@ -3,6 +3,7 @@
 #include "Window.h"
 #include <d3d12.h>
 #include <dxgiformat.h>
+#include <d3dcommon.h>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePtr() const noexcept = 0;
@@ -37,4 +38,16 @@ namespace SmartFCCS {
 	};
 
 	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
+
+	enum class SHADERMODEL {
+		SM_5_0,
+		SM_5_1
+	};
+
+	enum class SHADERTYPE {
+		VERTEX,
+		PIXEL
+	};
+
+	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob);
 }

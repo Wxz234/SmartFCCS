@@ -1,6 +1,7 @@
 #include "cmd.h"
 #include "dx12_backend.h"
 #include <synchapi.h>
+#include <combaseapi.h>
 namespace SmartFCCS {
 	CommandList::CommandList(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type) {
 		m_Device = pDevice;
@@ -42,7 +43,7 @@ namespace SmartFCCS {
 		m_submitValue++;
 		CheckDXError(m_Queue->Signal(m_fence.Get(), m_submitValue));
 		CheckDXError(m_fence->SetEventOnCompletion(m_submitValue, m_event.Get()));
-		WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+		WaitForSingleObjectEx(m_event.Get(), 0xFFFFFFFF, 0);
 		releaseCommandAllocatorRef();
 	}
 
