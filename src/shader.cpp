@@ -18,8 +18,8 @@ namespace SmartFCCS {
 		return temp;
 	}
 
-	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob) {
+	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const D3D_SHADER_MACRO* pDefines, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob) {
 		auto target_str = gettarget(sm, type);
-		return D3DCompileFromFile(filename, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entry, target_str.c_str(), 0, 0, ppvBlob, nullptr);
+		return D3DCompileFromFile(filename, pDefines, D3D_COMPILE_STANDARD_FILE_INCLUDE, entry, target_str.c_str(), 0, 0, ppvBlob, nullptr);
 	}
 }

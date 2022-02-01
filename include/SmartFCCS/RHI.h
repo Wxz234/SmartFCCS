@@ -53,5 +53,5 @@ namespace SmartFCCS {
 		PIXEL
 	};
 
-	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob);
+	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const D3D_SHADER_MACRO* pDefines, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob);
 }

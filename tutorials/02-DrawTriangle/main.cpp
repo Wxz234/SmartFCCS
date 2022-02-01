@@ -28,8 +28,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         Microsoft::WRL::ComPtr<ID3DBlob> vertexShader;
         Microsoft::WRL::ComPtr<ID3DBlob> pixelShader;
 
-        CompileShaderFromFile(L"vs.hlsl", "main", SHADERMODEL::SM_5_1, SHADERTYPE::VERTEX, &vertexShader);
-        CompileShaderFromFile(L"ps.hlsl", "main", SHADERMODEL::SM_5_1, SHADERTYPE::PIXEL, &pixelShader);
+        CompileShaderFromFile(L"vs.hlsl", nullptr, "main", SHADERMODEL::SM_5_1, SHADERTYPE::VERTEX, &vertexShader);
+        CompileShaderFromFile(L"ps.hlsl", nullptr, "main", SHADERMODEL::SM_5_1, SHADERTYPE::PIXEL, &pixelShader);
 
         D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
         {
