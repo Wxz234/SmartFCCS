@@ -20,5 +20,6 @@ namespace SmartFCCS {
 		uint32_t m_frameIndex;
 		//
 		IResource* m_res_ptr;
+		DXGI_FORMAT m_SwapchainFormat;
 	};
 }

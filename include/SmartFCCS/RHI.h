@@ -19,6 +19,10 @@ namespace SmartFCCS {
 		virtual D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const noexcept = 0;
 	};
 
+	struct ITexture : public IResource {
+		virtual DXGI_FORMAT GetFormat() const noexcept = 0;
+	};
+
 	struct IBuffer : public IResource {
 		virtual void Write(void* pResource, size_t n) = 0;
 	};

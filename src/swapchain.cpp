@@ -1,5 +1,6 @@
 #include "swapchain.h"
 #include "window.h"
+#include "gpuresource.h"
 #include "dx12_backend.h"
 
 namespace SmartFCCS {
@@ -38,10 +39,19 @@ namespace SmartFCCS {
 		++m_fenceValues[m_frameIndex];
 
 		m_queue = ((ID3D12CommandQueue*)pQueue->GetNativePtr());
+		m_SwapchainFormat = format;
+		m_res_ptr = new Texture[FCCS_SWAPCHAIN_NUM];
+		for (uint32_t i = 0; i < FCCS_SWAPCHAIN_NUM; ++i) {
+			((Texture*)m_res_ptr)[i].m_Format = format;
+			Microsoft::WRL::ComPtr<ID3D12Resource> my_Texture;
+			m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&my_Texture));
+			((Texture*)m_res_ptr)[i].m_Texture = my_Texture;
+		}
+		
 	}
 
 	IResource* SwapChain::GetTexture(uint32_t n) const noexcept {
-		return nullptr;
+		return &m_res_ptr[n];
 	}
 	
 	void SwapChain::Present() {
