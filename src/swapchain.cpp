@@ -50,7 +50,7 @@ namespace SmartFCCS {
 		
 	}
 
-	IResource* SwapChain::GetTexture(uint32_t n) const noexcept {
+	ITexture* SwapChain::GetTexture(uint32_t n) const noexcept {
 		return &m_res_ptr[n];
 	}
 	

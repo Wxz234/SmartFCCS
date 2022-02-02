@@ -53,7 +53,7 @@ namespace SmartFCCS {
 	FCCS_API IDevice* CreateDevice();
 
 	struct ISwapChain : public IDXObject {
-		virtual IResource* GetTexture(uint32_t n) const noexcept = 0;
+		virtual ITexture* GetTexture(uint32_t n) const noexcept = 0;
 		virtual uint32_t GetFrameIndex() const noexcept = 0;
 		virtual void Present() = 0;
 	};
