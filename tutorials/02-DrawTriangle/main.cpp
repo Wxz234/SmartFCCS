@@ -69,30 +69,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         vertexBufferView.SizeInBytes = sizeof(triangleVertices);
     }
 
-    constexpr UINT framecount = 3;
-    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
-    Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets[framecount];
-    UINT rtvDescriptorSize;
-    {
-        auto deviceptr = (ID3D12Device*)device->GetNativePtr();
-        D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-        rtvHeapDesc.NumDescriptors = framecount;
-        rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-        rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-        deviceptr->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
-
-        rtvDescriptorSize = deviceptr->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-        CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart());
-
-        auto swapChain = (IDXGISwapChain*)swapchain->GetNativePtr();
-        for (UINT n = 0; n < framecount; n++)
-        {
-            swapChain->GetBuffer(n, IID_PPV_ARGS(&renderTargets[n]));
-            deviceptr->CreateRenderTargetView(renderTargets[n].Get(), nullptr, rtvHandle);
-            rtvHandle.Offset(1, rtvDescriptorSize);
-        }
-    }
-
     CD3DX12_VIEWPORT viewport(0.f, 0.f, width, height);
     CD3DX12_RECT scissorRect(0, 0, width, height);
 
@@ -106,7 +82,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         m_commandList->RSSetScissorRects(1, &scissorRect);
         g_list->ResourceBarrier(swapchain->GetTexture(frameIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-        CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart(), frameIndex, rtvDescriptorSize);
+        auto rtvHandle = swapchain->GetRenderTargetView(frameIndex);
         m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
         const float clearColor[] = { 0.0f, 0.2f, 0.4f, 1.0f };

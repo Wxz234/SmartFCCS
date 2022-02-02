@@ -38,14 +38,32 @@ namespace SmartFCCS {
 		CheckDXError(_device->CreateFence(m_fenceValues[m_frameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
 		++m_fenceValues[m_frameIndex];
 
+		Microsoft::WRL::ComPtr<ID3D12Device> m_Device;
+		static_cast<ID3D12CommandQueue*>(pQueue->GetNativePtr())->GetDevice(IID_PPV_ARGS(&m_Device));
+		m_rtvOffset = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+		rtvHeapDesc.NumDescriptors = FCCS_SWAPCHAIN_NUM;
+		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		m_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
+
 		m_queue = ((ID3D12CommandQueue*)pQueue->GetNativePtr());
 		m_SwapchainFormat = format;
 		Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets[FCCS_SWAPCHAIN_NUM];
 
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart());
+
 		for (uint32_t i = 0; i < FCCS_SWAPCHAIN_NUM; ++i) {
 			swapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i]));
+			m_Device->CreateRenderTargetView(renderTargets[i].Get(), nullptr, rtvHandle);
+			rtvHandle.Offset(1, m_rtvOffset);
 			m_tex.emplace_back(new Texture(renderTargets[i].Get(), format));
 		}
+	}
+
+	D3D12_CPU_DESCRIPTOR_HANDLE SwapChain::GetRenderTargetView(uint32_t n) const noexcept {
+		return CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeap->GetCPUDescriptorHandleForHeapStart(), n, m_rtvOffset);
 	}
 
 	ITexture* SwapChain::GetTexture(uint32_t n) const noexcept {

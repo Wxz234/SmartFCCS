@@ -7,6 +7,7 @@ namespace SmartFCCS {
 		SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 		~SwapChain();
 		IUnknown* GetNativePtr() const noexcept { return m_SwapChain.Get(); }
+		D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept;
 		ITexture* GetTexture(uint32_t n) const noexcept;
 		uint32_t GetFrameIndex() const noexcept { return m_SwapChain->GetCurrentBackBufferIndex(); }
 		void Present();
@@ -21,5 +22,8 @@ namespace SmartFCCS {
 		//
 		std::vector<ITexture*> m_tex;
 		DXGI_FORMAT m_SwapchainFormat;
+		//
+		uint32_t m_rtvOffset;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
 	};
 }
