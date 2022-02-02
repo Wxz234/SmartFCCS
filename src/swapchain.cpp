@@ -40,18 +40,16 @@ namespace SmartFCCS {
 
 		m_queue = ((ID3D12CommandQueue*)pQueue->GetNativePtr());
 		m_SwapchainFormat = format;
-		m_res_ptr = new Texture[FCCS_SWAPCHAIN_NUM];
+		Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets[FCCS_SWAPCHAIN_NUM];
+
 		for (uint32_t i = 0; i < FCCS_SWAPCHAIN_NUM; ++i) {
-			((Texture*)m_res_ptr)[i].m_Format = format;
-			Microsoft::WRL::ComPtr<ID3D12Resource> my_Texture;
-			m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&my_Texture));
-			((Texture*)m_res_ptr)[i].m_Texture = my_Texture;
+			swapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i]));
+			m_tex.emplace_back(new Texture(renderTargets[i].Get(), format));
 		}
-		
 	}
 
 	ITexture* SwapChain::GetTexture(uint32_t n) const noexcept {
-		return &m_res_ptr[n];
+		return m_tex[n];
 	}
 	
 	void SwapChain::Present() {
@@ -71,6 +69,10 @@ namespace SmartFCCS {
 		CheckDXError(m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get()));
 		WaitForSingleObjectEx(m_event.Get(), 0xFFFFFFFF, 0);
 		++m_fenceValues[m_frameIndex];
+
+		for (uint32_t i = 0;i < FCCS_SWAPCHAIN_NUM; ++i) {
+			delete m_tex[i];
+		}
 	}
 
 	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format) {

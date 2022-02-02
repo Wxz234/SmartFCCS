@@ -19,7 +19,7 @@ namespace SmartFCCS {
 		std::vector<uint64_t> m_fenceValues;
 		uint32_t m_frameIndex;
 		//
-		ITexture* m_res_ptr;
+		std::vector<ITexture*> m_tex;
 		DXGI_FORMAT m_SwapchainFormat;
 	};
 }

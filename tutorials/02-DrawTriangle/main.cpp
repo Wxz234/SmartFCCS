@@ -104,23 +104,20 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         m_commandList->SetGraphicsRootSignature(rootsignature.Get());
         m_commandList->RSSetViewports(1, &viewport);
         m_commandList->RSSetScissorRects(1, &scissorRect);
+        auto xx = swapchain->GetTexture(frameIndex);
 
-        auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(renderTargets[frameIndex].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-        m_commandList->ResourceBarrier(1, &barrier);
+        g_list->ResourceBarrier(swapchain->GetTexture(frameIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
         CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart(), frameIndex, rtvDescriptorSize);
         m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
-        // Record commands.
         const float clearColor[] = { 0.0f, 0.2f, 0.4f, 1.0f };
         m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
         m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         m_commandList->IASetVertexBuffers(0, 1, &vertexBufferView);
         m_commandList->DrawInstanced(3, 1, 0, 0);
 
-        // Indicate that the back buffer will now be used to present.
-        barrier = CD3DX12_RESOURCE_BARRIER::Transition(renderTargets[frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-        m_commandList->ResourceBarrier(1, &barrier);
+        g_list->ResourceBarrier(swapchain->GetTexture(frameIndex), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
         g_list->Close();
         g_queue->Execute(g_list);
         swapchain->Present();
