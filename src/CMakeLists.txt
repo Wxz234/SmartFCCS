@@ -17,6 +17,7 @@ set(FCCS_SOURCE_FILE
     swapchain.cpp
     gpuresource.cpp
     shader.cpp
+    pipeline.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
 )

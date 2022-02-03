@@ -16,6 +16,11 @@ namespace SmartFCCS {
 		releaseCommandAllocatorRef();
 	}
 
+	void CommandList::SetGraphicsPipelineState(IPipelineState* pPipelineState) {
+		m_List->SetPipelineState((ID3D12PipelineState*)pPipelineState->GetNativePtr());
+		m_List->SetGraphicsRootSignature(pPipelineState->GetRootSignature());
+	}
+
 	void CommandList::ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after) {
 		if (brfore != after) {
 			auto barrier = CD3DX12_RESOURCE_BARRIER::Transition((ID3D12Resource*)pResource->GetNativePtr(), brfore, after);

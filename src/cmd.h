@@ -6,6 +6,7 @@ namespace SmartFCCS {
 		CommandList(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type);
 		~CommandList();
 		IUnknown* GetNativePtr() const noexcept { return m_List.Get(); }
+		void SetGraphicsPipelineState(IPipelineState* pPipelineState);
 		void ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after);
 		void Open();
 		void Close();

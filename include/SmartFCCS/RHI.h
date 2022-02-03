@@ -15,6 +15,21 @@ namespace SmartFCCS {
 		UPLOAD
 	};
 
+	struct GRAPHICS_PIPELINE_DESC {
+		ID3D12RootSignature* pRootSignature = nullptr;
+		D3D12_SHADER_BYTECODE VS = {};
+		D3D12_SHADER_BYTECODE PS = {};
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		D3D12_INPUT_LAYOUT_DESC InputLayout = { nullptr ,0 };
+		UINT NumRenderTargets = 0;
+		DXGI_FORMAT RTVFormats[8] = { DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN ,DXGI_FORMAT_UNKNOWN };
+		DXGI_FORMAT DSVFormat = DXGI_FORMAT_UNKNOWN;
+	};
+
+	struct IPipelineState : public IDXObject {
+		virtual ID3D12RootSignature* GetRootSignature() const noexcept = 0;
+	};
+
 	struct IResource : public IDXObject {
 		virtual D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const noexcept = 0;
 	};
@@ -34,6 +49,7 @@ namespace SmartFCCS {
 	};
 
 	struct ICommandList : public IDXObject {
+		virtual void SetGraphicsPipelineState(IPipelineState* pPipelineState) = 0;
 		virtual void ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after) = 0;
 		virtual void Open() = 0;
 		virtual void Close() = 0;
@@ -41,18 +57,6 @@ namespace SmartFCCS {
 
 	struct ICommandQueue : public IDXObject {
 		virtual void Execute(ICommandList* pList) = 0;
-	};
-
-	struct GRAPHICS_PIPELINE_DESC {
-		ID3D12RootSignature* pRootSignature = nullptr;
-		D3D12_SHADER_BYTECODE VS = {};
-		D3D12_SHADER_BYTECODE PS = {};
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-		D3D12_INPUT_LAYOUT_DESC InputLayout = { nullptr ,0 };
-	};
-
-	struct IPipelineState : public IDXObject {
-
 	};
 
 	struct IDevice : public IDXObject {

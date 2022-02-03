@@ -9,11 +9,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     constexpr unsigned width = 800, height = 800;
     constexpr DXGI_FORMAT renderformat = DXGI_FORMAT_R8G8B8A8_UNORM;
     auto window = CreateWindowF(L"fccs", width, height);
+    window->ShowWindow();
     auto device = CreateDevice();
     auto g_queue = device->CreateCommandQueue(COMMAND_LIST_TYPE::GRAPHICS);
     auto g_list = device->CreateCommandList(COMMAND_LIST_TYPE::GRAPHICS);
     auto swapchain = CreateSwapChain(window, g_queue, renderformat);
-    window->ShowWindow();
 
     Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
     {
@@ -23,35 +23,27 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         device->CreateRootSignature(&rootSignatureDesc, &rootsignature);
     }
 
-    Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
+    IPipelineState* pipelineState = nullptr;
     {
         Microsoft::WRL::ComPtr<ID3DBlob> vertexShader;
         Microsoft::WRL::ComPtr<ID3DBlob> pixelShader;
 
-        CompileShaderFromFile(L"vs.hlsl", nullptr, "main", SHADERMODEL::SM_5_1, SHADERTYPE::VERTEX, &vertexShader);
-        CompileShaderFromFile(L"ps.hlsl", nullptr, "main", SHADERMODEL::SM_5_1, SHADERTYPE::PIXEL, &pixelShader);
+        CompileShaderFromFile(L"vs.hlsl", nullptr, "main", SHADER_MODEL::SM_5_1, SHADER_TYPE::VERTEX, &vertexShader);
+        CompileShaderFromFile(L"ps.hlsl", nullptr, "main", SHADER_MODEL::SM_5_1, SHADER_TYPE::PIXEL, &pixelShader);
 
         D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
         };
 
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+        GRAPHICS_PIPELINE_DESC psoDesc = {};
         psoDesc.InputLayout = { inputElementDescs, 1 };
         psoDesc.pRootSignature = rootsignature.Get();
         psoDesc.VS = CD3DX12_SHADER_BYTECODE(vertexShader.Get());
         psoDesc.PS = CD3DX12_SHADER_BYTECODE(pixelShader.Get());
-        psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-        psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-        psoDesc.DepthStencilState.DepthEnable = FALSE;
-        psoDesc.DepthStencilState.StencilEnable = FALSE;
-        psoDesc.SampleMask = 0xffffffff;
-        psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
         psoDesc.NumRenderTargets = 1;
         psoDesc.RTVFormats[0] = renderformat;
-        psoDesc.SampleDesc.Count = 1;
-        auto deviceptr = (ID3D12Device*)device->GetNativePtr();
-        deviceptr->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState));
+        pipelineState = device->CreateGraphicsPipelineState(&psoDesc);
     }
 
     D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
@@ -75,9 +67,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     while (window->IsRun()) {
         auto frameIndex = swapchain->GetFrameIndex();
         g_list->Open();
+        g_list->SetGraphicsPipelineState(pipelineState);
         auto m_commandList = (ID3D12GraphicsCommandList*)g_list->GetNativePtr();
-        m_commandList->SetPipelineState(pipelineState.Get());
-        m_commandList->SetGraphicsRootSignature(rootsignature.Get());
         m_commandList->RSSetViewports(1, &viewport);
         m_commandList->RSSetScissorRects(1, &scissorRect);
         g_list->ResourceBarrier(swapchain->GetTexture(frameIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -96,6 +87,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         g_queue->Execute(g_list);
         swapchain->Present();
     }
+    DestroyObject(pipelineState);
     DestroyObject(vertexBuffer);
     DestroyObject(swapchain);
     DestroyObject(g_list);

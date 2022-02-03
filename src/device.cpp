@@ -1,6 +1,7 @@
 #include "device.h"
 #include "cmd.h"
 #include "gpuresource.h"
+#include "pipeline.h"
 #include "dx12_backend.h"
 namespace SmartFCCS {
 	Device::Device() {
@@ -8,7 +9,25 @@ namespace SmartFCCS {
 	}
 
 	IPipelineState* Device::CreateGraphicsPipelineState(const GRAPHICS_PIPELINE_DESC* pDesc) {
-		return nullptr;
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+		psoDesc.InputLayout = pDesc->InputLayout;
+		psoDesc.pRootSignature = pDesc->pRootSignature;
+		psoDesc.VS = pDesc->VS;
+		psoDesc.PS = pDesc->PS;
+		psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+		psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+		psoDesc.SampleMask = 0xffffffff;
+		psoDesc.PrimitiveTopologyType = pDesc->PrimitiveTopologyType;
+		psoDesc.NumRenderTargets = pDesc->NumRenderTargets;
+		for (uint32_t i = 0;i < 8; ++i) {
+			psoDesc.RTVFormats[i] = pDesc->RTVFormats[i];
+		}
+		psoDesc.DSVFormat = pDesc->DSVFormat;
+		psoDesc.SampleDesc.Count = 1;
+		Microsoft::WRL::ComPtr<ID3D12PipelineState> pso;
+		CheckDXError(m_Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pso)));
+		return new PipelineState(pso.Get(), psoDesc.pRootSignature);
 	}
 
 	HRESULT Device::CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) {
