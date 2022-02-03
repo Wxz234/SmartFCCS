@@ -61,7 +61,7 @@ namespace SmartFCCS {
 			}
 		};
 		
-		static CmdAllocatorPool cmd_Pool;
+		CmdAllocatorPool cmd_Pool;
 		ID3D12CommandAllocator* getCommandAllocatorInPool(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type) {
 			return cmd_Pool.getCanUseAllocatorByDeviceAndType(pDevice, type);
 		}

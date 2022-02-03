@@ -7,7 +7,11 @@ namespace SmartFCCS {
 	SwapChain::SwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format) {
 		Microsoft::WRL::ComPtr<IDXGIFactory4> factory;
 		Window* window = (Window*)pWindow;
-		CheckDXError(CreateDXGIFactory2(0, IID_PPV_ARGS(&factory)));
+#ifdef _DEBUG
+		CheckDXError(CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&factory)));
+#else
+		CheckDXError(CreateDXGIFactory2(01, IID_PPV_ARGS(&factory)));
+#endif		
 		DXGI_SWAP_CHAIN_DESC1 _desc = {};
 		_desc.BufferCount = FCCS_SWAPCHAIN_NUM;
 		_desc.Width = window->w;
