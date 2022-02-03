@@ -44,10 +44,19 @@ namespace SmartFCCS {
 	};
 
 	struct GRAPHICS_PIPELINE_DESC {
+		ID3D12RootSignature* pRootSignature = nullptr;
+		D3D12_SHADER_BYTECODE VS = {};
+		D3D12_SHADER_BYTECODE PS = {};
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		D3D12_INPUT_LAYOUT_DESC InputLayout = { nullptr ,0 };
+	};
+
+	struct IPipelineState : public IDXObject {
 
 	};
 
 	struct IDevice : public IDXObject {
+		virtual IPipelineState* CreateGraphicsPipelineState(const GRAPHICS_PIPELINE_DESC* pDesc) = 0;
 		virtual IBuffer* CreateBuffer(HEAP_TYPE type, D3D12_RESOURCE_STATES state, size_t buffersize) = 0;
 		virtual HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) = 0;
 		virtual ICommandList* CreateCommandList(COMMAND_LIST_TYPE type) = 0;

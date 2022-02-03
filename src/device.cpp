@@ -7,6 +7,10 @@ namespace SmartFCCS {
 		CheckDXError(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&m_Device)));
 	}
 
+	IPipelineState* Device::CreateGraphicsPipelineState(const GRAPHICS_PIPELINE_DESC* pDesc) {
+		return nullptr;
+	}
+
 	HRESULT Device::CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) {
 		Microsoft::WRL::ComPtr<ID3DBlob> signature;
 		Microsoft::WRL::ComPtr<ID3DBlob> error;
