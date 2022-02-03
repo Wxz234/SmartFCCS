@@ -43,6 +43,10 @@ namespace SmartFCCS {
 		virtual void Execute(ICommandList* pList) = 0;
 	};
 
+	struct GRAPHICS_PIPELINE_DESC {
+
+	};
+
 	struct IDevice : public IDXObject {
 		virtual IBuffer* CreateBuffer(HEAP_TYPE type, D3D12_RESOURCE_STATES state, size_t buffersize) = 0;
 		virtual HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) = 0;
@@ -61,15 +65,15 @@ namespace SmartFCCS {
 
 	FCCS_API ISwapChain* CreateSwapChain(IWindow* pWindow, ICommandQueue* pQueue, DXGI_FORMAT format);
 
-	enum class SHADERMODEL {
+	enum class SHADER_MODEL {
 		SM_5_0,
 		SM_5_1
 	};
 
-	enum class SHADERTYPE {
+	enum class SHADER_TYPE {
 		VERTEX,
 		PIXEL
 	};
 
-	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const D3D_SHADER_MACRO* pDefines, const char* entry, SHADERMODEL sm, SHADERTYPE type, ID3DBlob** ppvBlob);
+	FCCS_API HRESULT CompileShaderFromFile(const wchar_t* filename, const D3D_SHADER_MACRO* pDefines, const char* entry, SHADER_MODEL sm, SHADER_TYPE type, ID3DBlob** ppvBlob);
 }
