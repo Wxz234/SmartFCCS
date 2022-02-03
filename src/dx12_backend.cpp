@@ -1,12 +1,14 @@
 #include "dx12_backend.h"
 namespace SmartFCCS {
 	void CheckDXError(HRESULT hr) {
-		if (hr != S_OK) {
-			throw "DX ERROR!";
+#ifdef _DEBUG
+		if (FAILED(hr)) {
+			throw 111;
 		}
+#endif // _DEBUG
 	}
 	namespace Internal {
-
+		
 		struct CmdAllocator {
 			ID3D12Fence* fence = nullptr;
 			uint64_t submitValue = 0;
@@ -26,7 +28,7 @@ namespace SmartFCCS {
 				for (auto iter = canUseAllocator.begin(); iter != canUseAllocator.end(); ++iter) {
 					if (iter->type == type) {
 						tempAlloc = *iter;
-						tempAlloc.cmdAllocator->Reset();
+						CheckDXError(tempAlloc.cmdAllocator->Reset());
 						canUseAllocator.erase(iter);
 						isFound = true;
 						break;
@@ -51,12 +53,14 @@ namespace SmartFCCS {
 						iter->fence = pFence;
 						iter->submitValue = submitValue;
 					}
+
 					if (iter->fence && iter->submitValue != 0 && iter->fence->GetCompletedValue() >= iter->submitValue) {
 						canUseAllocator.emplace_back(*iter);
-						busyAllocator.erase(iter);
-						break;
+						iter = busyAllocator.erase(iter);
 					}
-					++iter;
+					else {
+						++iter;
+					}
 				}
 			}
 		};
