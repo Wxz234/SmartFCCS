@@ -56,7 +56,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
             { 0.25f,-0.25f, 0.00f, 1.00f },
             {-0.25f,-0.25f, 0.00f, 1.00f },
         };
-        vertexBuffer = device->CreateBuffer(HEAP_TYPE::UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ, sizeof(triangleVertices));
+        vertexBuffer = device->CreateBuffer(sizeof(triangleVertices), HEAP_TYPE::UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
         vertexBuffer->Write(triangleVertices, sizeof(triangleVertices));
         vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
         vertexBufferView.StrideInBytes = sizeof(float) * 4;

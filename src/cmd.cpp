@@ -66,6 +66,13 @@ namespace SmartFCCS {
 		releaseCommandAllocatorRef();
 	}
 
+	void CommandQueue::WaitIdle() {
+		m_submitValue++;
+		CheckDXError(m_Queue->Signal(m_fence.Get(), m_submitValue));
+		CheckDXError(m_fence->SetEventOnCompletion(m_submitValue, m_event.Get()));
+		WaitForSingleObjectEx(m_event.Get(), 0xFFFFFFFF, 0);
+	}
+
 
 	void CommandQueue::Execute(ICommandList* pList) {
 		ID3D12CommandList* pLists[] = { (ID3D12CommandList*)pList->GetNativePtr() };

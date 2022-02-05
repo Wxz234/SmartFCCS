@@ -21,6 +21,7 @@ namespace SmartFCCS {
 		CommandQueue(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type);
 		~CommandQueue();
 		IUnknown* GetNativePtr() const noexcept { return m_Queue.Get(); }
+		void WaitIdle();
 		void Execute(ICommandList* pList);
 
 		Microsoft::WRL::ComPtr<ID3D12Device> m_Device;

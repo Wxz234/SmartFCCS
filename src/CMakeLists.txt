@@ -20,6 +20,7 @@ set(FCCS_SOURCE_FILE
     pipeline.cpp
     dx12_backend.cpp
     SmartFCCS.cpp
+    DDSTextureLoader12.cpp
 )
 
 add_library(SmartFCCS SHARED 
@@ -31,3 +32,4 @@ target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
 target_compile_definitions(SmartFCCS PRIVATE UNICODE FCCS_LIBRARY D3DX12_NO_CHECK_FEATURE_SUPPORT_CLASS D3DX12_NO_STATE_OBJECT_HELPERS)
 target_link_libraries(SmartFCCS PRIVATE d3d12 d3dcompiler dxguid dxgi)
 target_precompile_headers(SmartFCCS PRIVATE pch.h)
+target_compile_options(SmartFCCS PRIVATE /wd4005 /wd26812)

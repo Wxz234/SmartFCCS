@@ -59,12 +59,14 @@ namespace SmartFCCS {
 	};
 
 	struct ICommandQueue : public IDXObject {
+		virtual void WaitIdle() = 0;
 		virtual void Execute(ICommandList* pList) = 0;
 	};
 
 	struct IDevice : public IDXObject {
 		virtual IPipelineState* CreateGraphicsPipelineState(const GRAPHICS_PIPELINE_DESC* pDesc) = 0;
-		virtual IBuffer* CreateBuffer(HEAP_TYPE type, D3D12_RESOURCE_STATES state, size_t buffersize) = 0;
+		virtual ITexture* CreateTexture(uint32_t width, uint32_t height, uint32_t levels, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flag, const D3D12_CLEAR_VALUE* pOptimizedClearValue, D3D12_RESOURCE_STATES state) = 0;
+		virtual IBuffer* CreateBuffer(size_t buffersize, HEAP_TYPE type, D3D12_RESOURCE_STATES state) = 0;
 		virtual HRESULT CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) = 0;
 		virtual ICommandList* CreateCommandList(COMMAND_LIST_TYPE type) = 0;
 		virtual ICommandQueue* CreateCommandQueue(COMMAND_LIST_TYPE type) = 0;
