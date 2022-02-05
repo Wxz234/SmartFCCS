@@ -43,6 +43,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         psoDesc.PS = CD3DX12_SHADER_BYTECODE(pixelShader.Get());
         psoDesc.NumRenderTargets = 1;
         psoDesc.RTVFormats[0] = renderformat;
+        psoDesc.Viewport = CD3DX12_VIEWPORT(0.f, 0.f, width, height);
+        psoDesc.Scissor = CD3DX12_RECT(0, 0, width, height);
         pipelineState = device->CreateGraphicsPipelineState(&psoDesc);
     }
 
@@ -61,16 +63,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         vertexBufferView.SizeInBytes = sizeof(triangleVertices);
     }
 
-    CD3DX12_VIEWPORT viewport(0.f, 0.f, width, height);
-    CD3DX12_RECT scissorRect(0, 0, width, height);
-
     while (window->IsRun()) {
         auto frameIndex = swapchain->GetFrameIndex();
         g_list->Open();
         g_list->SetGraphicsPipelineState(pipelineState);
         auto m_commandList = (ID3D12GraphicsCommandList*)g_list->GetNativePtr();
-        m_commandList->RSSetViewports(1, &viewport);
-        m_commandList->RSSetScissorRects(1, &scissorRect);
         g_list->ResourceBarrier(swapchain->GetTexture(frameIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
         auto rtvHandle = swapchain->GetRenderTargetView(frameIndex);
@@ -87,11 +84,12 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         g_queue->Execute(g_list);
         swapchain->Present();
     }
+
+    DestroyObject(g_queue);
     DestroyObject(pipelineState);
     DestroyObject(vertexBuffer);
     DestroyObject(swapchain);
     DestroyObject(g_list);
-    DestroyObject(g_queue);
     DestroyObject(device);
     DestroyObject(window);
     return 0;

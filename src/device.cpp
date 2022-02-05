@@ -35,7 +35,7 @@ namespace SmartFCCS {
 		psoDesc.SampleDesc.Count = 1;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> pso;
 		CheckDXError(m_Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pso)));
-		return new PipelineState(pso.Get(), psoDesc.pRootSignature);
+		return new GraphicsPipelineState(pso.Get(), psoDesc.pRootSignature, pDesc->Viewport, pDesc->Scissor);
 	}
 
 	HRESULT Device::CreateRootSignature(const D3D12_ROOT_SIGNATURE_DESC* pRootSignature, ID3D12RootSignature** ppvRootSignature) {

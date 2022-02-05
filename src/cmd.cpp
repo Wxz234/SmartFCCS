@@ -1,4 +1,5 @@
 #include "cmd.h"
+#include "pipeline.h"
 #include "dx12_backend.h"
 namespace SmartFCCS {
 	CommandList::CommandList(ID3D12Device* pDevice, D3D12_COMMAND_LIST_TYPE type) {
@@ -19,6 +20,9 @@ namespace SmartFCCS {
 	void CommandList::SetGraphicsPipelineState(IPipelineState* pPipelineState) {
 		m_List->SetPipelineState((ID3D12PipelineState*)pPipelineState->GetNativePtr());
 		m_List->SetGraphicsRootSignature(pPipelineState->GetRootSignature());
+		auto pso = (GraphicsPipelineState*)pPipelineState;
+		m_List->RSSetViewports(1, &pso->m_viewport);
+		m_List->RSSetScissorRects(1, &pso->m_Scissor);
 	}
 
 	void CommandList::ResourceBarrier(IResource* pResource, D3D12_RESOURCE_STATES brfore, D3D12_RESOURCE_STATES after) {
