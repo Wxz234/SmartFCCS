@@ -44,8 +44,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     psoDesc.Viewport = CD3DX12_VIEWPORT(0.f, 0.f, width, height);
     psoDesc.Scissor = CD3DX12_RECT(0, 0, width, height);
     std::unique_ptr<IPipelineState, fccs_deleter<IPipelineState>> pipelineState(device->CreateGraphicsPipelineState(&psoDesc));
-    vertexShader.Reset();
-    pixelShader.Reset();
+
     float triangleVertices[3][4] = {
         { 0.00f, 0.25f, 0.00f, 1.00f },
         { 0.25f,-0.25f, 0.00f, 1.00f },
