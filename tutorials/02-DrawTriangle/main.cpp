@@ -17,7 +17,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
     {
-        
         CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
         rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
         device->CreateRootSignature(&rootSignatureDesc, &rootsignature);
