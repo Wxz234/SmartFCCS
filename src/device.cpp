@@ -57,7 +57,12 @@ namespace SmartFCCS {
 		m_Device->CreateCommittedResource(&prop, D3D12_HEAP_FLAG_NONE, &texDesc, state, pOptimizedClearValue, IID_PPV_ARGS(&myTexture));
 		return new Texture(myTexture.Get(), format);
 	}
+
+	void Device::WaitIdle() {
+		//m_queue->WaitIdle();
+	}
 	Device::~Device() {
+		WaitIdle();
 		DestroyObject(m_queue);
 		DestroyObject(m_list);
 	}
