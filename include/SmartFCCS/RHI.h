@@ -1,6 +1,8 @@
 #pragma once
 #include "Core.h"
+#include "Window.h"
 #include <d3d11_4.h>
+#include <dxgiformat.h>
 namespace SmartFCCS {
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
@@ -11,4 +13,10 @@ namespace SmartFCCS {
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;
 	FCCS_API DeviceUniquePtr CreateDevice();
+
+	struct ISwapChain : public IDXObject {
+		virtual void Present() = 0;
+	};
+	using SwapChainUniquePtr = std::unique_ptr<ISwapChain, void(*)(ISwapChain*)>;
+	FCCS_API SwapChainUniquePtr CreateSwapChain(IWindow* pWindow, IDevice* pDevice, DXGI_FORMAT format);
 }

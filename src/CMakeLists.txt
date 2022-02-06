@@ -12,6 +12,7 @@ set(FCCS_SOURCE_FILE
     SmartFCCS.cpp
     device.cpp
     window.cpp
+    swapchain.cpp
 )
 
 add_library(SmartFCCS SHARED 
