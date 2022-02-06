@@ -13,7 +13,7 @@ namespace SmartFCCS {
 	FCCS_API void DestroyObject(IObject* object);
 
 	template <class T>
-	struct fccs_deleter {
+	struct Deleter {
 		void operator()(T* p) {
 			DestroyObject(p);
 		}
