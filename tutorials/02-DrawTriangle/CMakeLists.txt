@@ -1,7 +1,4 @@
 add_executable(02-DrawTriangle WIN32 main.cpp)
-target_link_libraries(02-DrawTriangle PRIVATE SmartFCCS)
-target_include_directories(02-DrawTriangle PRIVATE ${PROJECT_SOURCE_DIR}/thirdparty/d3dx12/inc)
-target_compile_definitions(02-DrawTriangle PRIVATE D3DX12_NO_CHECK_FEATURE_SUPPORT_CLASS D3DX12_NO_STATE_OBJECT_HELPERS)
-target_link_libraries(02-DrawTriangle PRIVATE d3d12 d3dcompiler)
+target_link_libraries(02-DrawTriangle PRIVATE SmartFCCS d3dcompiler)
 set_target_properties(02-DrawTriangle PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_custom_command(TARGET 02-DrawTriangle POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SmartFCCS> $<TARGET_FILE_DIR:02-DrawTriangle>)
