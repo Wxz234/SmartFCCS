@@ -21,5 +21,5 @@ add_library(SmartFCCS SHARED
 target_include_directories(SmartFCCS PUBLIC ${FCCS_INCLUDE_DIRECTION})
 target_compile_definitions(SmartFCCS PRIVATE UNICODE FCCS_LIBRARY)
 target_link_libraries(SmartFCCS PRIVATE d3d11 dxguid dxgi d3dcompiler)
-#target_precompile_headers(SmartFCCS PRIVATE pch.h)
+target_precompile_headers(SmartFCCS PRIVATE pch.h)
 #target_compile_options(SmartFCCS PRIVATE /wd4005 /wd26812)
