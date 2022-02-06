@@ -51,13 +51,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     immediateContext->VSSetShader(vs.Get(), nullptr, 0);
     immediateContext->PSSetShader(ps.Get(), nullptr, 0);
 
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
-    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTargetView;
-    auto swapchain_ptr = reinterpret_cast<IDXGISwapChain*>(swapchain->GetNativePointer());
-    swapchain_ptr->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
-    device_ptr->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView);
-
-    immediateContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), nullptr);
+    auto renderTargetView = swapchain->GetRenderTargetView();
+    immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
     D3D11_VIEWPORT ScreenViewport = {};
     ScreenViewport.TopLeftX = 0;
     ScreenViewport.TopLeftY = 0;

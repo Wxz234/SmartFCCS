@@ -15,6 +15,7 @@ namespace SmartFCCS {
 	FCCS_API DeviceUniquePtr CreateDevice();
 
 	struct ISwapChain : public IDXObject {
+		virtual ID3D11RenderTargetView* GetRenderTargetView() const noexcept = 0;
 		virtual void Present() = 0;
 	};
 	using SwapChainUniquePtr = std::unique_ptr<ISwapChain, void(*)(ISwapChain*)>;

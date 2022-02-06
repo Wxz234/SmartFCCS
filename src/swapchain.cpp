@@ -33,6 +33,14 @@ namespace SmartFCCS {
 		pIDXGIFactory->CreateSwapChainForHwnd(g_pd3dDevice, window->m_Hwnd, &_desc, &fsSwapChainDesc, nullptr, &swapChain);
 		pIDXGIFactory->MakeWindowAssociation(window->m_Hwnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER);
 		swapChain.As(&m_SwapChain);
+
+		m_SwapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+		auto device = (ID3D11Device*)pDevice->GetNativePointer();
+		device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView);
+	}
+
+	ID3D11RenderTargetView* SwapChain::GetRenderTargetView() const noexcept {
+		return renderTargetView.Get();
 	}
 
 	void SwapChain::Present() {
