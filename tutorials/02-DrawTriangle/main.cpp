@@ -6,7 +6,7 @@
 using namespace SmartFCCS;
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    auto window = CreateWindowF(L"fccs", 800, 600);
+    auto window = CreateWindowF(L"fccs", 800, 800);
     auto device = CreateDevice();
     auto swapchain = CreateSwapChain(window.get(), device.get(), DXGI_FORMAT_R8G8B8A8_UNORM);
     window->ShowWindow();
@@ -57,11 +57,19 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     swapchain_ptr->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     device_ptr->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView);
 
-    while (window->IsRun()) {
-        float black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-        immediateContext->ClearRenderTargetView(renderTargetView.Get(), black);
+    immediateContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), nullptr);
+    D3D11_VIEWPORT ScreenViewport = {};
+    ScreenViewport.TopLeftX = 0;
+    ScreenViewport.TopLeftY = 0;
+    ScreenViewport.Width = static_cast<float>(800);
+    ScreenViewport.Height = static_cast<float>(800);
+    ScreenViewport.MinDepth = 0.0f;
+    ScreenViewport.MaxDepth = 1.0f;
+    immediateContext->RSSetViewports(1, &ScreenViewport);
 
-       // immediateContext->DrawInstanced()
+    while (window->IsRun()) {
+
+        immediateContext->Draw(3, 0);
         swapchain->Present();
     }
     return 0;
