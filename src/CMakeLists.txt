@@ -11,6 +11,7 @@ set(FCCS_INCLUDE_FILE
 set(FCCS_SOURCE_FILE
     SmartFCCS.cpp
     device.cpp
+    window.cpp
 )
 
 add_library(SmartFCCS SHARED 
