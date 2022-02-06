@@ -5,7 +5,7 @@
 #else
 #define FCCS_API __declspec(dllimport)
 #endif // FCCS_LIBRARY
-
+#include <memory>
 namespace SmartFCCS {
 	struct IObject {
 		virtual ~IObject();

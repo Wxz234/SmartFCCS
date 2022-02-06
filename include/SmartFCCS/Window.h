@@ -6,6 +6,6 @@ namespace SmartFCCS {
 		virtual void ShowWindow() = 0;
 		virtual bool IsRun() = 0;
 	};
-
-	FCCS_API IWindow* CreateWindowF(const wchar_t* title, uint32_t width, uint32_t height);
+	using WindowUniquePtr = std::unique_ptr<IWindow, void(*)(IWindow*)>;
+	FCCS_API WindowUniquePtr CreateWindowF(const wchar_t* title, uint32_t width, uint32_t height);
 }
