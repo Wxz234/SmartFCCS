@@ -3,7 +3,9 @@
 #include "Window.h"
 #include <d3d11_4.h>
 #include <dxgiformat.h>
+
 namespace SmartFCCS {
+
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
 	};

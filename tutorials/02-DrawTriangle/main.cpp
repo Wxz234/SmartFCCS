@@ -1,12 +1,12 @@
 #include <Windows.h>
-#include <SmartFCCS/SmartFCCS.h>
 #include <d3dcompiler.h>
 #include <wrl/client.h>
-#include <dxgi1_2.h>
+#include <SmartFCCS/SmartFCCS.h>
 using namespace SmartFCCS;
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    auto window = CreateWindowF(L"fccs", 800, 800);
+    constexpr uint32_t width = 800, height = 800;
+    auto window = CreateWindowF(L"fccs", width, height);
     auto device = CreateDevice();
     auto swapchain = CreateSwapChain(window.get(), device.get(), DXGI_FORMAT_R8G8B8A8_UNORM);
     window->ShowWindow();
@@ -36,7 +36,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     vbd.Usage = D3D11_USAGE_IMMUTABLE;
     vbd.ByteWidth = sizeof(triangleVertices);
     vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vbd.CPUAccessFlags = 0;
     D3D11_SUBRESOURCE_DATA InitData = {};
     InitData.pSysMem = triangleVertices;
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertexbuffer;
@@ -53,17 +52,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     auto renderTargetView = swapchain->GetRenderTargetView();
     immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
-    D3D11_VIEWPORT ScreenViewport = {};
-    ScreenViewport.TopLeftX = 0;
-    ScreenViewport.TopLeftY = 0;
-    ScreenViewport.Width = static_cast<float>(800);
-    ScreenViewport.Height = static_cast<float>(800);
-    ScreenViewport.MinDepth = 0.0f;
-    ScreenViewport.MaxDepth = 1.0f;
-    immediateContext->RSSetViewports(1, &ScreenViewport);
+
+    D3D11_VIEWPORT screenViewport{ 0, 0, width, height, 0.f, 1.f };
+    immediateContext->RSSetViewports(1, &screenViewport);
 
     while (window->IsRun()) {
-
         immediateContext->Draw(3, 0);
         swapchain->Present();
     }
