@@ -6,6 +6,9 @@
 #define FCCS_API __declspec(dllimport)
 #endif // FCCS_LIBRARY
 #include <memory>
+#include <cstdint>
+#include <d3d11_4.h>
+#include <dxgiformat.h>
 namespace SmartFCCS {
 	struct IObject {
 		virtual ~IObject();

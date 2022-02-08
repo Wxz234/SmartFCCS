@@ -1,6 +1,6 @@
 #pragma once
 #include "Core.h"
-#include <cstdint>
+
 namespace SmartFCCS {
 	struct IWindow : public IObject {
 		virtual void ShowWindow() = 0;

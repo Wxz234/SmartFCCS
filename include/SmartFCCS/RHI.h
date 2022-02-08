@@ -1,14 +1,18 @@
 #pragma once
 #include "Core.h"
 #include "Window.h"
-#include <d3d11_4.h>
-#include <dxgiformat.h>
 
 namespace SmartFCCS {
 
 	struct IDXObject : public IObject {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
 	};
+
+	struct IRenderTexture : public IDXObject {
+		virtual ID3D11ShaderResourceView* GetShaderResourceView() const noexcept = 0;
+		virtual ID3D11RenderTargetView* GetRenderTargetView() const noexcept = 0;
+	};
+	using RenderTextureUniquePtr = std::unique_ptr<IRenderTexture, void(*)(IRenderTexture*)>;
 
 	struct IDevice : public IDXObject {
 		virtual ID3D11DeviceContext* GetDeviceContext() const noexcept = 0;

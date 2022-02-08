@@ -13,6 +13,7 @@ set(FCCS_SOURCE_FILE
     device.cpp
     window.cpp
     swapchain.cpp
+    texture.cpp
 )
 
 add_library(SmartFCCS SHARED 
