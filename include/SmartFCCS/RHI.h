@@ -15,6 +15,7 @@ namespace SmartFCCS {
 	using RenderTextureUniquePtr = std::unique_ptr<IRenderTexture, void(*)(IRenderTexture*)>;
 
 	struct IDevice : public IDXObject {
+		virtual RenderTextureUniquePtr CreateRenderTexture(uint32_t width, uint32_t height, DXGI_FORMAT format) = 0;
 		virtual ID3D11DeviceContext* GetDeviceContext() const noexcept = 0;
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;
