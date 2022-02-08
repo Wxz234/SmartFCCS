@@ -55,10 +55,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     immediateContext->RSSetViewports(1, &screenViewport);
 
     auto renderTexture = device->CreateRenderTexture(width, height, format);
-    auto renderTargetView = renderTexture->GetRenderTargetView();
-    immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
     while (window->IsRun()) {
+        auto renderTargetView = renderTexture->GetRenderTargetView();
+        immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
+        immediateContext->Draw(3, 0);
+
+        renderTargetView = swapchain->GetRenderTargetView();
+        immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
         immediateContext->Draw(3, 0);
         swapchain->Present();
     }
