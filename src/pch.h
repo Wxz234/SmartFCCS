@@ -6,7 +6,10 @@
 #include <d3dcommon.h>
 
 #include <wrl.h>
+#include <combaseapi.h>
 
 #include <mutex>
+#include <vector>
 
 #include <cstdint>
+#include <cstddef>

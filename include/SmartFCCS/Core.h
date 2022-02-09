@@ -7,6 +7,7 @@
 #endif // FCCS_LIBRARY
 #include <memory>
 #include <cstdint>
+#include <cstddef>
 #include <d3d11_4.h>
 #include <dxgiformat.h>
 namespace SmartFCCS {

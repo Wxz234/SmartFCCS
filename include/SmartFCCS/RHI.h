@@ -8,14 +8,8 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
 	};
 
-	struct IRenderTexture : public IDXObject {
-		virtual ID3D11ShaderResourceView* GetShaderResourceView() const noexcept = 0;
-		virtual ID3D11RenderTargetView* GetRenderTargetView() const noexcept = 0;
-	};
-	using RenderTextureUniquePtr = std::unique_ptr<IRenderTexture, void(*)(IRenderTexture*)>;
-
 	struct IDevice : public IDXObject {
-		virtual RenderTextureUniquePtr CreateRenderTexture(uint32_t width, uint32_t height, DXGI_FORMAT format) = 0;
+		virtual HRESULT CreateInputLayout(const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) = 0;
 		virtual ID3D11DeviceContext* GetDeviceContext() const noexcept = 0;
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;

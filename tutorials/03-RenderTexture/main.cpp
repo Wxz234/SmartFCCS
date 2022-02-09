@@ -6,10 +6,9 @@ using namespace SmartFCCS;
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
     constexpr uint32_t width = 800, height = 800;
-    constexpr DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
     auto window = CreateWindowF(L"fccs", width, height);
     auto device = CreateDevice();
-    auto swapchain = CreateSwapChain(window.get(), device.get(), format);
+    auto swapchain = CreateSwapChain(window.get(), device.get(), DXGI_FORMAT_R8G8B8A8_UNORM);
     window->ShowWindow();
 
     Microsoft::WRL::ComPtr<ID3DBlob> vs_blob, ps_blob;
@@ -21,12 +20,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
     device_ptr->CreatePixelShader(ps_blob->GetBufferPointer(), ps_blob->GetBufferSize(), nullptr, &ps);
 
-    D3D11_INPUT_ELEMENT_DESC desc[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout;
-    device_ptr->CreateInputLayout(desc, 1, vs_blob->GetBufferPointer(), vs_blob->GetBufferSize(), &layout);
+    device->CreateInputLayout(vs_blob->GetBufferPointer(), vs_blob->GetBufferSize(), &layout);
 
     float triangleVertices[3][4] = {
         { 0.00f, 0.25f, 0.00f, 1.00f },
@@ -51,18 +46,13 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     immediateContext->VSSetShader(vs.Get(), nullptr, 0);
     immediateContext->PSSetShader(ps.Get(), nullptr, 0);
 
+    auto renderTargetView = swapchain->GetRenderTargetView();
+    immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
+
     D3D11_VIEWPORT screenViewport{ 0, 0, width, height, 0.f, 1.f };
     immediateContext->RSSetViewports(1, &screenViewport);
 
-    auto renderTexture = device->CreateRenderTexture(width, height, format);
-
     while (window->IsRun()) {
-        auto renderTargetView = renderTexture->GetRenderTargetView();
-        immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
-        immediateContext->Draw(3, 0);
-
-        renderTargetView = swapchain->GetRenderTargetView();
-        immediateContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
         immediateContext->Draw(3, 0);
         swapchain->Present();
     }

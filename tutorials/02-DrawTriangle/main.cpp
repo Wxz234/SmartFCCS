@@ -20,12 +20,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
     device_ptr->CreatePixelShader(ps_blob->GetBufferPointer(), ps_blob->GetBufferSize(), nullptr, &ps);
 
-    D3D11_INPUT_ELEMENT_DESC desc[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
     Microsoft::WRL::ComPtr<ID3D11InputLayout> layout;
-    device_ptr->CreateInputLayout(desc, 1, vs_blob->GetBufferPointer(), vs_blob->GetBufferSize(), &layout);
+    device->CreateInputLayout(vs_blob->GetBufferPointer(), vs_blob->GetBufferSize(), &layout);
 
     float triangleVertices[3][4] = {
         { 0.00f, 0.25f, 0.00f, 1.00f },
