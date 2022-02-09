@@ -13,7 +13,7 @@ namespace SmartFCCS {
 		};
 		D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevels, 2, D3D11_SDK_VERSION, m_Device.GetAddressOf(), nullptr, m_DeviceContext.GetAddressOf());
 	}
-	HRESULT Device::CreateInputLayout(const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) {
+	HRESULT Device::CreateInputLayout(uint32_t inputSlot,const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) {
 		Microsoft::WRL::ComPtr<ID3D11ShaderReflection> reflection;
 		D3DReflect(pShaderBytecodeWithInputSignature, BytecodeLength, IID_PPV_ARGS(&reflection));
 
@@ -30,7 +30,7 @@ namespace SmartFCCS {
 			D3D11_INPUT_ELEMENT_DESC t_InputElementDesc = {};
 			t_InputElementDesc.SemanticName = t_SP_DESC.SemanticName;
 			t_InputElementDesc.SemanticIndex = t_SP_DESC.SemanticIndex;
-			t_InputElementDesc.InputSlot = 0;
+			t_InputElementDesc.InputSlot = inputSlot;
 			t_InputElementDesc.AlignedByteOffset = t_ByteOffset;
 			t_InputElementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			t_InputElementDesc.InstanceDataStepRate = 0;

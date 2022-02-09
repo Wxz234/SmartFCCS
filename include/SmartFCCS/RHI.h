@@ -9,7 +9,7 @@ namespace SmartFCCS {
 	};
 
 	struct IDevice : public IDXObject {
-		virtual HRESULT CreateInputLayout(const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) = 0;
+		virtual HRESULT CreateInputLayout(uint32_t inputSlot,const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) = 0;
 		virtual ID3D11DeviceContext* GetDeviceContext() const noexcept = 0;
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;
