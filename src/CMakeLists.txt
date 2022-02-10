@@ -7,6 +7,7 @@ set(FCCS_INCLUDE_FILE
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Window.h
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/RHI.h
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Mesh.h
+    ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Camera.h
 )
 
 set(FCCS_SOURCE_FILE
