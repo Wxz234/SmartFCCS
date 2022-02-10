@@ -8,6 +8,6 @@ namespace SmartFCCS {
 		Camera(Camera&& camera) noexcept = default;
 		Camera& operator=(Camera&& camera) noexcept = default;
 
-		DirectX::XMFLOAT4 pos;
+		DirectX::XMFLOAT3 pos;
 	};
 }
