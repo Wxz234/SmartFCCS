@@ -7,6 +7,7 @@ namespace SmartFCCS {
 		Window(const wchar_t* title, uint32_t width, uint32_t height);
 		void ShowWindow();
 		bool IsRun();
+		void DispatchWindowMessage();
 		MSG msg;
 		HWND m_Hwnd;
 

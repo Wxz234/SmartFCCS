@@ -54,13 +54,16 @@ namespace SmartFCCS {
         if (WM_QUIT == msg.message) {
             return false;
         }
+
+        return true;
+    }
+
+    void Window::DispatchWindowMessage() {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-
-        return true;
     }
 
     FCCS_API WindowUniquePtr CreateWindowF(const wchar_t* title, uint32_t width, uint32_t height) {
