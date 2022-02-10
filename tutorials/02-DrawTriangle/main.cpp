@@ -4,7 +4,7 @@
 using namespace SmartFCCS;
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    uint32_t width = 800, height = 800;
+    uint32_t width = 800, height = 600;
     auto window = CreateWindowF(L"fccs", width, height);
     window->ShowWindow();
     auto device = CreateDevice();
@@ -19,7 +19,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
     device_ptr->CreatePixelShader(ps_blob->GetBufferPointer(), ps_blob->GetBufferSize(), nullptr, &ps);
 
-    auto immediateContext = reinterpret_cast<ID3D11DeviceContext*>(device->GetDefaultDeviceContext()->GetNativePointer());
+    auto deviceContext = device->GetDefaultDeviceContext();
+    auto immediateContext = reinterpret_cast<ID3D11DeviceContext*>(deviceContext->GetNativePointer());
     immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     immediateContext->VSSetShader(vs.Get(), nullptr, 0);
     immediateContext->PSSetShader(ps.Get(), nullptr, 0);
