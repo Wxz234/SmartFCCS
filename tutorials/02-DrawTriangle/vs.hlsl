@@ -1,5 +1,9 @@
-float4 MyPos[3];
-float4 main(float4 pos : POSITION) : SV_POSITION
+float4 main(uint v_id : SV_VertexID) : SV_POSITION
 {
-	return pos;
+    const float4 MyPos[3] = {
+        { 0.00f, 0.25f, 0.00f, 1.00f },
+        { 0.25f,-0.25f, 0.00f, 1.00f },
+        {-0.25f,-0.25f, 0.00f, 1.00f }
+    };
+    return MyPos[v_id];
 }
