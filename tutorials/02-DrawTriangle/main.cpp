@@ -7,6 +7,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     window->ShowWindow();
     auto device = CreateDevice();
     auto swapchain = CreateSwapChain(window.get(), device.get(), DXGI_FORMAT_R8G8B8A8_UNORM);
+    auto devicecontext = device->GetDefaultDeviceContext();
     while (window->IsRun()) {
         swapchain->Present();
     }
