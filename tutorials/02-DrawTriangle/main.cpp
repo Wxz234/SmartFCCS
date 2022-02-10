@@ -39,7 +39,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     uint32_t stride = sizeof(triangleVertices) / 3;
     uint32_t offset = 0;
-    auto immediateContext = device->GetDeviceContext();
+    auto immediateContext = reinterpret_cast<ID3D11DeviceContext*>(device->GetDefaultDeviceContext()->GetNativePointer());
     immediateContext->IASetVertexBuffers(0, 1, vertexbuffer.GetAddressOf(), &stride, &offset);
     immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     immediateContext->IASetInputLayout(layout.Get());

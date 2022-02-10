@@ -8,9 +8,14 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
 	};
 
+	struct IDeviceContext : public IDXObject {
+
+	};
+	using DeviceContextUniquePtr = std::unique_ptr<IDeviceContext, void(*)(IDeviceContext*)>;
+
 	struct IDevice : public IDXObject {
 		virtual HRESULT CreateInputLayout(uint32_t inputSlot,const void* pShaderBytecodeWithInputSignature, size_t BytecodeLength, ID3D11InputLayout** ppInputLayout) = 0;
-		virtual ID3D11DeviceContext* GetDeviceContext() const noexcept = 0;
+		virtual DeviceContextUniquePtr GetDefaultDeviceContext() const noexcept = 0;
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;
 	FCCS_API DeviceUniquePtr CreateDevice();

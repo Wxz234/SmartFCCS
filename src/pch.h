@@ -8,6 +8,7 @@
 #include <wrl.h>
 #include <combaseapi.h>
 
+#include <memory>
 #include <mutex>
 #include <vector>
 
