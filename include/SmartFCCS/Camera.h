@@ -2,10 +2,17 @@
 #include "Core.h"
 namespace SmartFCCS {
 	struct Camera {
-		Camera(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3& dir, const DirectX::XMFLOAT3& up, float FovAngleY, float AspectRatio, float NearZ, float FarZ)
+		Camera(
+			const DirectX::XMFLOAT3 & pos, 
+			const DirectX::XMFLOAT3& focus,
+			const DirectX::XMFLOAT3& up, 
+			float FovAngleY, 
+			float AspectRatio, 
+			float NearZ, 
+			float FarZ)
 		{
 			this->pos = pos;
-			this->dir = dir;
+			this->focus = focus;
 			this->up = up;
 			this->FovAngleY = FovAngleY;
 			this->AspectRatio = AspectRatio;
@@ -16,13 +23,15 @@ namespace SmartFCCS {
 		Camera& operator=(const Camera& camera) = default;
 		Camera(Camera&& camera) noexcept = default;
 		Camera& operator=(Camera&& camera) noexcept = default;
-		void f() {
-			//DirectX:: XMMatrixPerspectiveFovLH
-				
+		DirectX::XMMATRIX GetVP() {
+			auto _pos = DirectX::XMLoadFloat3(&pos);
+			auto _focus = DirectX::XMLoadFloat3(&focus);
+			auto _up = DirectX::XMLoadFloat3(&up);
+			return DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(_pos, _focus, _up)* DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ));	
 		}
 	private:
 		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 dir;
+		DirectX::XMFLOAT3 focus;
 		DirectX::XMFLOAT3 up;
 		float FovAngleY;
 		float AspectRatio;
