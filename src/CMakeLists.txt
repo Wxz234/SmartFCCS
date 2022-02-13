@@ -8,6 +8,7 @@ set(FCCS_INCLUDE_FILE
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/RHI.h
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Mesh.h
     ${PROJECT_SOURCE_DIR}/include/SmartFCCS/Camera.h
+    ${PROJECT_SOURCE_DIR}/include/SmartFCCS/DX11_Utility.h
 )
 
 set(FCCS_SOURCE_FILE
