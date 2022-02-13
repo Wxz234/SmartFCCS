@@ -9,11 +9,12 @@ namespace SmartFCCS {
 	};
 
 	struct IDeviceContext : public IDXObject {
-
+		//void UpdateResource()
 	};
 	using DeviceContextUniquePtr = std::unique_ptr<IDeviceContext, void(*)(IDeviceContext*)>;
 
 	struct IDevice : public IDXObject {
+		virtual DeviceContextUniquePtr CreateDeviceContext() = 0;
 		virtual DeviceContextUniquePtr GetDefaultDeviceContext() const noexcept = 0;
 	};
 	using DeviceUniquePtr = std::unique_ptr<IDevice, void(*)(IDevice*)>;

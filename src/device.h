@@ -13,6 +13,11 @@ namespace SmartFCCS {
 	struct Device : public IDevice {
 		Device();
 		IUnknown* GetNativePointer() const noexcept { return m_Device.Get(); }
+		DeviceContextUniquePtr CreateDeviceContext() { 
+			Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
+			m_Device->CreateDeferredContext(0, &deviceContext);
+			return DeviceContextUniquePtr(new DeviceContext(deviceContext.Get()), [](IDeviceContext* p) { DestroyObject(p); });
+		}
 		DeviceContextUniquePtr GetDefaultDeviceContext() const noexcept { return DeviceContextUniquePtr(new DeviceContext(m_DeviceContext.Get()), [](IDeviceContext* p) { DestroyObject(p); }); }
 		Microsoft::WRL::ComPtr<ID3D11Device> m_Device;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_DeviceContext;

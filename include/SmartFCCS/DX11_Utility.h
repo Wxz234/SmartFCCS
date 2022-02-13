@@ -2,4 +2,5 @@
 #include "Core.h"
 
 namespace SmartFCCS {
+
 }
