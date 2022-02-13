@@ -1,37 +1,42 @@
 #pragma once
 #include "Core.h"
+
 namespace SmartFCCS {
 	struct Camera {
-		Camera(
-			const DirectX::XMFLOAT3 & pos, 
-			const DirectX::XMFLOAT3& focus,
-			const DirectX::XMFLOAT3& up, 
-			float FovAngleY, 
-			float AspectRatio, 
-			float NearZ, 
-			float FarZ)
-		{
-			this->pos = pos;
-			this->focus = focus;
-			this->up = up;
-			this->FovAngleY = FovAngleY;
-			this->AspectRatio = AspectRatio;
-			this->NearZ = NearZ;
-			this->FarZ = FarZ;
+		Camera() {
+			pos = DirectX::XMFLOAT3(0, 0, 0);
+			dir = DirectX::XMFLOAT3(0, 0, 1);
+			up = DirectX::XMFLOAT3(0, 1, 0);
+			FovAngleY = DirectX::XMConvertToRadians(45.f);
+			AspectRatio = 1.f;
+			NearZ = 0.1f;
+			FarZ = 100.f;
 		}
-		Camera(const Camera& camera) = default; 
+
+		Camera(const Camera& camera) = default;
 		Camera& operator=(const Camera& camera) = default;
 		Camera(Camera&& camera) noexcept = default;
 		Camera& operator=(Camera&& camera) noexcept = default;
-		DirectX::XMMATRIX GetVP() {
+
+		void SetAspectRatio(float aspectRatio) { AspectRatio = aspectRatio; }
+		void SetFov(float fov) { FovAngleY = fov; }
+		void SetNearZ(float nearZ) { NearZ = nearZ; }
+		void SetFarZ(float farZ) { FarZ = farZ; }
+
+		DirectX::XMMATRIX GetViewMatrix() const {
 			auto _pos = DirectX::XMLoadFloat3(&pos);
-			auto _focus = DirectX::XMLoadFloat3(&focus);
+			auto _dir = DirectX::XMLoadFloat3(&dir);
 			auto _up = DirectX::XMLoadFloat3(&up);
-			return DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(_pos, _focus, _up)* DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ));	
+			return DirectX::XMMatrixLookToLH(_pos, _dir, _up);
 		}
+
+		DirectX::XMMATRIX GetProjectionMatrix() const {
+			return DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ);
+		}
+
 	private:
 		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 focus;
+		DirectX::XMFLOAT3 dir;
 		DirectX::XMFLOAT3 up;
 		float FovAngleY;
 		float AspectRatio;

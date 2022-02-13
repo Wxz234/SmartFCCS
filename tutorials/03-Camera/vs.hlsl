@@ -1,5 +1,5 @@
 cbuffer cb_static : register(b0) {
-    matrix camera_mat;
+    row_major matrix camera_mat;
 };
 
 float4 main(uint v_id : SV_VertexID) : SV_POSITION

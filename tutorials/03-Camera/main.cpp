@@ -4,7 +4,7 @@
 using namespace SmartFCCS;
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    uint32_t width = 800, height = 600;
+    uint32_t width = 800, height = 800;
     auto window = CreateWindowF(L"fccs", width, height);
     window->ShowWindow();
     auto device = CreateDevice();
@@ -31,8 +31,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     D3D11_VIEWPORT screenViewport{ 0, 0, static_cast<float>(width), static_cast<float>(height), 0.f, 1.f };
     immediateContext->RSSetViewports(1, &screenViewport);
 
-    Camera camera(DirectX::XMFLOAT3(0, 0, 0), DirectX::XMFLOAT3(0, 0, 1), DirectX::XMFLOAT3(0, 1, 0), DirectX::XMConvertToRadians(45.f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.f);
-    auto camera_mat = camera.GetVP();
+    Camera camera;
+    camera.SetAspectRatio(static_cast<float>(width) / static_cast<float>(height));
+    auto camera_mat = camera.GetViewMatrix() * camera.GetProjectionMatrix();
 
     D3D11_BUFFER_DESC cbd = {};
     cbd.Usage = D3D11_USAGE_IMMUTABLE;

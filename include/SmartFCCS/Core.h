@@ -5,6 +5,7 @@
 #else
 #define FCCS_API __declspec(dllimport)
 #endif // FCCS_LIBRARY
+#include <Windows.h>
 #include <memory>
 #include <cstdint>
 #include <cstddef>
@@ -13,6 +14,7 @@
 #include <d3dcompiler.h>
 #include <d3dcommon.h>
 #include <DirectXMath.h>
+
 namespace SmartFCCS {
 	struct IObject {
 		virtual ~IObject();
