@@ -8,8 +8,12 @@ namespace SmartFCCS {
 		virtual IUnknown* GetNativePointer() const noexcept = 0; 
 	};
 
+	struct IBuffer : public IDXObject {
+
+	};
+
 	struct IDeviceContext : public IDXObject {
-		//void UpdateResource()
+		virtual void UpdateBuffer(IBuffer* pBuffer,const void* pData, size_t num) = 0;
 	};
 	using DeviceContextUniquePtr = std::unique_ptr<IDeviceContext, void(*)(IDeviceContext*)>;
 

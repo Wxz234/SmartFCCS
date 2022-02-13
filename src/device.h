@@ -6,7 +6,12 @@ namespace SmartFCCS {
 	struct DeviceContext : public IDeviceContext {
 		DeviceContext(ID3D11DeviceContext*pDeviceContext) : m_DeviceContext(pDeviceContext) {}
 		IUnknown* GetNativePointer() const noexcept { return m_DeviceContext.Get(); }
-
+		void UpdateBuffer(IBuffer* pBuffer, const void* pData, size_t num) {
+			D3D11_MAPPED_SUBRESOURCE mappedData = {};
+			m_DeviceContext->Map((ID3D11Resource*)pBuffer->GetNativePointer(), 0, D3D11_MAP_WRITE, 0, &mappedData);
+			memcpy(mappedData.pData, pData, num);
+			m_DeviceContext->Unmap((ID3D11Resource*)pBuffer->GetNativePointer(), 0);
+		}
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_DeviceContext;
 	};
 
