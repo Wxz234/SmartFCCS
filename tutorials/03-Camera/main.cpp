@@ -36,16 +36,16 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     auto camera_mat = camera.GetViewMatrix() * camera.GetProjectionMatrix();
 
     D3D11_BUFFER_DESC cbd = {};
-    cbd.Usage = D3D11_USAGE_IMMUTABLE;
+    cbd.Usage = D3D11_USAGE_DYNAMIC;
     cbd.ByteWidth = sizeof(camera_mat);
     cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    D3D11_SUBRESOURCE_DATA subdata = {};
-    subdata.pSysMem = &camera_mat;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;
-    device_ptr->CreateBuffer(&cbd, &subdata, &constantBuffer);
-    immediateContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
+    cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    auto constantbuffer = device->CreateBuffer(&cbd, nullptr);
+    auto constantbuffer_ptr = reinterpret_cast<ID3D11Buffer*>(constantbuffer->GetNativePointer());
+    immediateContext->VSSetConstantBuffers(0, 1, &constantbuffer_ptr);
     while (window->IsRun()) {
         window->DispatchWindowMessage();
+        deviceContext->UpdateBuffer(constantbuffer.get(), &camera_mat, sizeof(camera_mat));
         immediateContext->Draw(3, 0);
         swapchain->Present();
     }

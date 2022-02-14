@@ -9,8 +9,9 @@ namespace SmartFCCS {
 	};
 
 	struct IBuffer : public IDXObject {
-
+		virtual D3D11_BUFFER_DESC* GetDesc() = 0;
 	};
+	using BufferUniquePtr = std::unique_ptr<IBuffer, void(*)(IBuffer*)>;
 
 	struct IDeviceContext : public IDXObject {
 		virtual void UpdateBuffer(IBuffer* pBuffer,const void* pData, size_t num) = 0;
@@ -18,6 +19,7 @@ namespace SmartFCCS {
 	using DeviceContextUniquePtr = std::unique_ptr<IDeviceContext, void(*)(IDeviceContext*)>;
 
 	struct IDevice : public IDXObject {
+		virtual BufferUniquePtr CreateBuffer(const D3D11_BUFFER_DESC* pDesc, const D3D11_SUBRESOURCE_DATA* pInitialData) = 0;
 		virtual DeviceContextUniquePtr CreateDeviceContext() = 0;
 		virtual DeviceContextUniquePtr GetDefaultDeviceContext() const noexcept = 0;
 	};
