@@ -8,9 +8,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     auto device = CreateDevice();
     auto swapchain = CreateSwapChain(window.get(), device.get(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //Create Deffered Contexts
+    auto immediatecontext = device->GetDefaultDeviceContext();
     auto copycontext = device->CreateDeviceContext();
     auto rendercontext = device->CreateDeviceContext();
-
     while (window->IsRun()) {
         window->DispatchWindowMessage();
         swapchain->Present();
